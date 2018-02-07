@@ -15,6 +15,13 @@
     <!-- end of wrapper -->
     <script src="../../js/menu-selector.js"></script>
     <script>
+        function splitText(allText) {
+            // console.log(typeof allText);
+            var lines = allText.split(/\n/);
+            console.log(lines);
+            return 0;
+        }
+
         function readTextFile(file) {
             var rawFile = new XMLHttpRequest();
             rawFile.open("GET", file, true);
@@ -22,7 +29,9 @@
                 if (rawFile.readyState === 4) {
                     if (rawFile.status === 200 || rawFile.status == 0) {
                         var allText = rawFile.responseText;
-                        console.log(allText);
+                        console.log(typeof allText);
+                        splitText(allText);
+                        return 0;
                     }
                 }
             }
