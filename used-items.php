@@ -3,6 +3,7 @@
 
 <head>
     <?php include 'included-phps/head.php';?>
+    <link rel="stylesheet" href="used-items.css">
 </head>
 
 <body>
@@ -13,7 +14,7 @@
                 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search...">
             </div>
             <div class="right-container">
-                <table id="myTable">
+                <table id="myTable" class="main table table-hover table-condensed table-striped" border="1" cellspacing="0" bordercolor="#D4D4D4" frame="box" rules="all">
                     <thead>
                         <tr id="myTableHeadTr">
                         </tr>
@@ -29,34 +30,29 @@
     <script src="../../js/menu-selector.js"></script>
     <script>
 
-        function insertHeader(linesArray) {
-            var headerNames = Object.keys(linesArray[0]);
-            var headerNamesHelper;
-            for (var i = 0; i < headerNames.length; i++) {
-                document.getElementById('myTableHeadTr').innerHTML += `<th style="width:30%;">${headerNames[i]}</th>`;
-            }
-        // }
+        function readTextFile(file) {
 
-        // function insertTableBody(linesArray) {
-            // var headerNames = Object.keys(linesArray[0]);
-            var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+            function insertTable(linesArray) {
+                var headerNames = Object.keys(linesArray[0]);
+                var headerNamesHelper;
+                for (var i = 0; i < headerNames.length; i++) {
+                    document.getElementById('myTableHeadTr').innerHTML += `<th style="width:30%;">${headerNames[i]}</th>`;
+                }
 
-
-            for (var j = 0; j < linesArray.length; j++) {
-                // Insert a row in the table at row index 0
-                var newRow   = tableRef.insertRow(tableRef.rows.length);
-                for (var k = headerNames.length-1; k >= 0; k--) {
-                    // Insert a cell in the row at index 0
-                    var newCell  = newRow.insertCell(0);
-                    // Append a text node to the cell. Dot notaion not possible as now it can use variable as object property
-                    var newText  = document.createTextNode(`${linesArray[j][headerNames[k]]}`);
-                    newCell.appendChild(newText);
-                    //document.getElementById('myTableBody').innerHTML += `<td style="width:30%;">${j} ${i}</td>`;
+                var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+                for (var j = 0; j < linesArray.length; j++) {
+                    // Insert a row in the table at row index 0
+                    var newRow   = tableRef.insertRow(tableRef.rows.length);
+                    for (var k = headerNames.length-1; k >= 0; k--) {
+                        // Insert a cell in the row at index 0
+                        var newCell  = newRow.insertCell(0);
+                        // Append a text node to the cell. Dot notaion not possible as now it can use variable as object property
+                        var newText  = document.createTextNode(`${linesArray[j][headerNames[k]].replace(/\<br\>/g, "\n")}`);
+                        newCell.appendChild(newText);
+                        //document.getElementById('myTableBody').innerHTML += `<td style="width:30%;">${j} ${i}</td>`;
+                    }
                 }
             }
-        }
-
-        function readTextFile(file) {
 
             function splitTextToLines(allText) {
                 var finalText = "";
@@ -101,9 +97,8 @@
                                 linesArray.push(rowObject);
                             }
                         }
-                        console.table(linesArray);
-                        insertHeader(linesArray);
-                        // insertTableBody(linesArray);
+                        //console.table(linesArray);
+                        insertTable(linesArray);
                         //return linesArray;
                     }
                 }

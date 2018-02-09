@@ -1,0 +1,24 @@
+.table-striped > thead {
+  background-color: #A5D4BC;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #EDEDED;
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
+  background-color: #FAFAFA;
+}
+
+.table-hover > tbody > tr:hover {
+  background-color: #BBE1FF;
+}
+
+td,th {
+    /* to display new line in cell, aka preformatted text */
+    white-space: pre;
+    text-align: center;
+    /* Using imporant so it overrides other stylings */
+    vertical-align: middle !important;
+    align-items:center;
+}

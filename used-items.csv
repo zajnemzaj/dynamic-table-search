@@ -1,7 +1,7 @@
 "Adattábla"|"Kategória"|"Állapot"|"Gyártó"|"Darab"
 "Sauer OMV 23 hydromotor 0004901"|"Axiáldugattyús hidromotor"|"Javított, tesztelt"|"Sauer Danfoss"|"1"
-" OMF 22-000-3901
-           UC 75 193
+"OMF 22-000-3901
+UC 75 193
 /SMF/"|"Axiáldugattyús hidromotor"|"Javított, tesztelt"|"Sauer Danfoss"|"1"
 "Model code: 51V110 – GC8N – G
 1NN NNH6 NNN
@@ -32,14 +32,15 @@ JANN CEK3 NNN
 Serial No.: N032
 048 655
 Model Ident: 507 362"|"Axiáldugattyús hidromotor"|"Javított, tesztelt"|"Sauer Danfoss"|"1"
-"Linde  BMV-186-02   Fabr.Nr:H2X208R02603 KS 2553   "|"Axiáldugattyús hidromotor"|"Javított, tesztelt"|"Linde"|"1"
+"Linde  BMV-186-02
+Fabr.Nr:H2X208R02603 KS 2553"|"Axiáldugattyús hidromotor"|"Javított, tesztelt"|"Linde"|"1"
 "Sauer Sundstrand
 Model Code: SMF2/070-B3Z-MS35352-A1
 Ident Nr.: 000133
 Serial No.: 8921
 Fabr. Nr.: 82838
 Hydromotor"|"Axiáldugattyús hidromotor"|"Javított, tesztelt"|"Sauer Danfoss"|"1"
-" Typ:A2FM125/6.1 W-PAB 01 
+"Typ:A2FM125/6.1 W-PAB 01 
 Nr:211.22.25.41  Fabr.Nr:1802802 
 Baujahr:06.86 Made in W.Germany"|"Axiáldugattyús hidromotor"|"Használt, tesztelt"|"Bosch  Rexroth"|"1"
 "Typ:A2FM 125/6.1 W-PAB 01 
@@ -95,10 +96,21 @@ N 961861080"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Sauer Danfoss"
 454526 H001
 Model No.: 506417
 N981308758"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Sauer Danfoss"|"1"
-"Model Code: 90R075 Fa6NN8D     P7C6 DB1 GMA 484830 E101 Model/Ident No:508 668 Serial No:N994031876"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Sauer Danfoss"|"1"
-"LINDE HPR 100 without control block"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Linde"|"1"
-"Hydromatic pump A4.125.DA.HV.1.R. 003 B0  Nr:233.2504.02"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Bosch  Rexroth"|"1"
-" A7V250LV 5.1 Typ:RPFH 0-S Nr:803891 Fabr Nr:0830711 n:1000 1/min P:30kw P:350bar"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Rexroth"|"1"
+"Model Code: 90R075 Fa6NN8D
+P7C6 DB1 GMA 484830 E101
+Model/Ident No:508 668
+Serial No:N994031876"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Sauer Danfoss"|"1"
+"LINDE HPR 100 
+without control block"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Linde"|"1"
+"Hydromatic pump 
+A4.125.DA.HV.1.R. 003 B0  
+Nr:233.2504.02"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Bosch  Rexroth"|"1"
+"A7V250LV 5.1 
+Typ:RPFH 0-S 
+Nr:803891 
+Fabr Nr:0830711 
+n:1000 1/min 
+P:30kw P:350bar"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Rexroth"|"1"
 "REXROTH
 ALA10V 063EK 1DS/53L-
 VSD62N00P – S1038
@@ -133,7 +145,8 @@ CNR: 5364 662 345
 SN: 22292737  7202
 n: 2200 1/min
 P: 71 Kw"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Rexroth"|"1"
-"KOMATSU 240 without dataplate, twin pump"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Komatsu"|"1"
+"KOMATSU 240 
+without dataplate, twin pump"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Komatsu"|"1"
 "Linde PV 105
 Fabr. nr.: 4378701527"|"Axiáldugattyús szivattyú"|"Használt, tesztelt"|"Linde"|"1"
 "SPV23 000 29740 85 35 22 86 9"|"Axiáldugattyús szivattyú"|"Javított, tesztelt"|"Sauer Danfoss"|"1"
@@ -162,16 +175,19 @@ Baujahr:07.86 Made in  W.Germany"|"Axiáldugattyús szivattyú"|"Új, tesztelt"|
 " Typ:A4VS0250 LRDF/10L-PPB13 
 NR:963607 Fabr-Nr:346451  
 baujahr:10.85 Synthet.Flüss Made in W.Germany 
-Mounted:Rexroth-sigma  471185/9 4183 1PF2G322/026LN07MHN 146425 100 
+Mounted:Rexroth-sigma  471185/9 4183
+1PF2G322/026LN07MHN 146425 100 
 Made in France"|"Axiáldugattyús szivattyú"|"Használt, tesztelt"|"Rexroth"|"1"
 "Brueninghaus  Hydraulik
 Typ:R1200 Nr:919551 N:1450MN-1 
-Fabr-Nr:323612 P:--KWP:350 Bar Made in W.Germany"|"Axiáldugattyús szivattyú"|"Használt, tesztelt"|"Rexroth"|"1"
+Fabr-Nr:323612 P:--KWP:350 Bar 
+Made in W.Germany"|"Axiáldugattyús szivattyú"|"Használt, tesztelt"|"Rexroth"|"1"
 "A2V.225.MA.GR.1.G 00.P/B.1 
 NR:207.32.25.00 
 Fabr.Nr:757210  Baujahr:3.77 
 CW, other dataplate:
-Nr:450.32.02.31 Fabr Nr:746815 Baujahr:3.77"|"Axiáldugattyús szivattyú"|"Használt, tesztelt"|"Rexroth"|"1"
+Nr:450.32.02.31 
+Fabr Nr:746815 Baujahr:3.77"|"Axiáldugattyús szivattyú"|"Használt, tesztelt"|"Rexroth"|"1"
 "Typ:A7V117 DR 2.0 L PF MF  
 Nr: 226.28.24.36 
 Fabr Nr:2013411 
@@ -195,8 +211,9 @@ MNR 2021610
 SN 21013352
 FD 05W31 Manufatured: 2005.
 Rotation CCW"|"Axiáldugattyús szivattyú"|"Használt, tesztelt"|"Rexroth"|"1"
-"Sauer Sundstrand CPRF 38-8 436821  99.9 89 39 02889"|"Betonkeverő hajtómű"|"Új, tesztelt"|"Sauer Danfoss"|"1"
-"   SNP2/19D
+"Sauer Sundstrand
+CPRF 38-8 436821 99.9 89 39 02889"|"Betonkeverő hajtómű"|"Új, tesztelt"|"Sauer Danfoss"|"1"
+"SNP2/19D
 SC46RLP G/8F
 SNP2/14 DFR 03/8E"|"Fogaskerék szivattyú"|"Új, tesztelt"|"Sauer Danfoss"|"1"
 "SNP 2 / 11 D
@@ -210,10 +227,12 @@ FR73
 +
 SNP 2/8D
 FR03 … 1
-            01APR0509044"|"Fogaskerék szivattyú"|"Új, tesztelt"|"Sauer Danfoss"|"1"
-"211.20.103.00 SNW2NN/019RNA6SM NNB7B5YYNN/NNNNN 09SEP13 00118
+01APR0509044"|"Fogaskerék szivattyú"|"Új, tesztelt"|"Sauer Danfoss"|"1"
+"211.20.103.00 SNW2NN/019RNA6SM 
+NNB7B5YYNN/NNNNN 09SEP13 00118
 Made in Slovakia –
-111.20.082.00 SNP2NN/014RN03CA P3B785NNNN/NNNNN 09SEP13 00458
+111.20.082.00 SNP2NN/014RN03CA
+P3B785NNNN/NNNNN 09SEP13 00458
 Made in Slovakia"|"Fogaskerék szivattyú"|"Új, tesztelt"|"Turolla / Sauer Danfoss"|"1"
 "Metaris
 Mod.: M2520VQ21A11-
