@@ -11,7 +11,7 @@
         <?php include 'included-phps/menu-visitors.php';?>
         <div class="container">
             <div class="left-container">
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search...">
+                <input type="text" id="myInput" onkeyup="searchTable()" placeholder="Keresés gyártóra...">
             </div>
             <div class="right-container">
                 <table id="myTable" class="main table table-hover table-condensed table-striped" border="1" cellspacing="0" bordercolor="#D4D4D4" frame="box" rules="all">
@@ -29,6 +29,33 @@
     <!-- end of wrapper -->
     <script src="../../js/menu-selector.js"></script>
     <script>
+
+        function searchTable() {
+            // Declare variables
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            th = table.getElementsByTagName("th");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                // for (var j = 0; th.length; j++)
+                // {
+                //     //td += tr[i].getElementsByTagName("td")[j];
+                //     //console.log(tr[i].getElementsByTagName("td")[j]);
+                // }
+                td = tr[i].getElementsByTagName("td")[3];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
 
         function readTextFile(file) {
 
