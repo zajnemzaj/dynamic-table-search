@@ -33,6 +33,7 @@
         function searchTable() {
             // Declare variables
             var input, filter, table, tr, td, i;
+            var searchInThis = "";
             input = document.getElementById("myInput");
             filter = input.value.toUpperCase();
             table = document.getElementById("myTable");
@@ -41,17 +42,19 @@
 
             // Loop through all table rows, and hide those who don't match the search query
             for (i = 0; i < tr.length; i++) {
-                // for (var j = 0; th.length; j++)
-                // {
-                //     //td += tr[i].getElementsByTagName("td")[j];
-                //     //console.log(tr[i].getElementsByTagName("td")[j]);
-                // }
-                td = tr[i].getElementsByTagName("td")[3];
-                if (td) {
-                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
+                // Loop through actual row's columns
+                for (var j = 0; j < th.length; j++)
+                 {
+                    td = tr[i].getElementsByTagName("td")[j];
+                    if (td) {
+                        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            // if match, then display and set j index to last column so next row can be examined
+                            tr[i].style.display = "";
+                            j = th.length-1;
+                        } else if (j === th.length-1) {
+                            // if not match and it is last column than hide it
+                            tr[i].style.display = "none";
+                        }
                     }
                 }
             }
