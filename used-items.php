@@ -9,29 +9,71 @@
     <div id="wrapper">
         <?php include 'included-phps/menu-visitors.php';?>
         <div class="container">
+            <div class="left-container">
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search...">
+            </div>
+            <div class="right-container">
+                <table id="myTable">
+                    <thead>
+                        <tr id="myTableHeadTr">
+                        </tr>
+                    </thead>
+                    <tbody id="myTableBody">
+                    </tbody>
+                </table>
+            </div>
         </div>
         <!-- end of container -->
     </div>
     <!-- end of wrapper -->
     <script src="../../js/menu-selector.js"></script>
     <script>
-        function splitTextToLines(allText) {
-            var finalText = "";
-            var start = 0;
-            // swap \n with <br>
-            for (var i = 0; i < allText.length; i++) {
-                if (allText[i] === "\n" && allText[i - 1] != '"') {
-                    finalText += allText.substring(start, i);
-                    finalText += "<br>";
-                    start = i + 1;
+
+        function insertHeader(linesArray) {
+            var headerNames = Object.keys(linesArray[0]);
+            var headerNamesHelper;
+            for (var i = 0; i < headerNames.length; i++) {
+                document.getElementById('myTableHeadTr').innerHTML += `<th style="width:30%;">${headerNames[i]}</th>`;
+            }
+        // }
+
+        // function insertTableBody(linesArray) {
+            // var headerNames = Object.keys(linesArray[0]);
+            var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+
+
+            for (var j = 0; j < linesArray.length; j++) {
+                // Insert a row in the table at row index 0
+                var newRow   = tableRef.insertRow(tableRef.rows.length);
+                for (var k = headerNames.length-1; k >= 0; k--) {
+                    // Insert a cell in the row at index 0
+                    var newCell  = newRow.insertCell(0);
+                    // Append a text node to the cell. Dot notaion not possible as now it can use variable as object property
+                    var newText  = document.createTextNode(`${linesArray[j][headerNames[k]]}`);
+                    newCell.appendChild(newText);
+                    //document.getElementById('myTableBody').innerHTML += `<td style="width:30%;">${j} ${i}</td>`;
                 }
             }
-            finalText += allText.substring(start, allText.length);
-            var lines = finalText.split(/\n/);
-            return lines;
         }
 
         function readTextFile(file) {
+
+            function splitTextToLines(allText) {
+                var finalText = "";
+                var start = 0;
+                // swap \n with <br>
+                for (var i = 0; i < allText.length; i++) {
+                    if (allText[i] === "\n" && allText[i - 1] != '"') {
+                        finalText += allText.substring(start, i);
+                        finalText += "<br>";
+                        start = i + 1;
+                    }
+                }
+                finalText += allText.substring(start, allText.length);
+                var lines = finalText.split(/\n/);
+                return lines;
+            }
+
             var linesArray = [];
             var rawFile = new XMLHttpRequest();
             rawFile.open("GET", file, true);
@@ -50,7 +92,7 @@
                                 // going through columns
                                 for (var i = 0; i < rowContent.length; i++) {
                                     // getting column names from first line
-                                    var columnName = lines[0].split("|")[i];
+                                    var columnName = lines[0].split("|")[i].replace(/['"]+/g, '');
                                     // adding new propery name (by column name) and value (from actual row) to rowObject
                                     rowObject[columnName] = rowContent[i].replace(/"/g, "");
                                 }
@@ -60,6 +102,8 @@
                             }
                         }
                         console.table(linesArray);
+                        insertHeader(linesArray);
+                        // insertTableBody(linesArray);
                         //return linesArray;
                     }
                 }
