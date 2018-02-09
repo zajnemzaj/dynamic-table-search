@@ -17,9 +17,9 @@
                         <div class="panel-group">
                             <div class="panel panel-default noshadow">
                                 <div class="panel-heading">
-                                        <a data-toggle="collapse" href="#collapse1"><b>Gyártó</b></a>
+                                        <a data-toggle="collapse" href="#collapse-gyarto"><b>Gyártó</b></a>
                                 </div>
-                                <div id="collapse1" class="panel-collapse collapse in filter">
+                                <div id="collapse-gyarto" class="panel-collapse collapse in filter">
                                     <div class="checkbox">
                                         <label><input type="checkbox" value="">Danfoss</label>
                                     </div>
@@ -39,6 +39,27 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="panel-group">
+                            <div class="panel panel-default noshadow">
+                                <div class="panel-heading">
+                                        <a data-toggle="collapse" href="#collapse-allapot"><b>Állapot</b></a>
+                                </div>
+                                <div id="collapse-allapot" class="panel-collapse collapse in filter">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="">Használt, tesztelt</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="">Javított, tesztelt</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="">Új, tesztelt</label>
+                                    </div>
+                                    <div class="panel-footer">Összes</div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
