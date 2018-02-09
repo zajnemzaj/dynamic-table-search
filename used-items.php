@@ -10,10 +10,40 @@
     <div id="wrapper">
         <?php include 'included-phps/menu-visitors.php';?>
         <div class="container">
-            <div class="left-container">
-                <input type="text" id="myInput" onkeyup="searchTable()" placeholder="Keresés gyártóra...">
+            <div class="left-container col-sm-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading panel-heading-custom"><b>Szűrők</b></div>
+                    <div class="panel-body filters">
+                        <div class="panel-group">
+                            <div class="panel panel-default noshadow">
+                                <div class="panel-heading">
+                                        <a data-toggle="collapse" href="#collapse1"><b>Gyártó</b></a>
+                                </div>
+                                <div id="collapse1" class="panel-collapse collapse in filter">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="">Danfoss</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="">Eaton</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="">Komatsu</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="">Linde</label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="">Rexroth</label>
+                                    </div>
+                                    <div class="panel-footer">Összes</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="right-container">
+            <div class="right-container col-sm-10">
+                <input type="search" id="myInput" placeholder="Keresés...">
                 <table id="myTable" class="main table table-hover table-condensed table-striped" border="1" cellspacing="0" bordercolor="#D4D4D4" frame="box" rules="all">
                     <thead>
                         <tr id="myTableHeadTr">
@@ -29,6 +59,11 @@
     <!-- end of wrapper -->
     <script src="../../js/menu-selector.js"></script>
     <script>
+        // better to call here (than directly in input field) because of clear button on the right
+        $('#myInput').on("input", function() {
+            // update panel
+            searchTable();
+        });
 
         function searchTable() {
             // Declare variables
