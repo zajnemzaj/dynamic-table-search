@@ -43,6 +43,7 @@
 
 
 
+
                 function searchTable2(checkedFiltersArray) {
                     // Declare variables
                     var filter, table, tr, td, i;
@@ -72,16 +73,52 @@
                     }
                 }
 
-        function searchTable() {
+        function searchTable(checkedFiltersArray) {
             // Declare variables
-            var input, filter, table, tr, td, i;
+            var filter, table, tr, td, i;
             var searchInThis = "";
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
+            filter = checkedFiltersArray[0].toUpperCase();
             table = document.getElementById("myTable");
             tr = table.getElementsByTagName("tr");
             th = table.getElementsByTagName("th");
 
+            // for (var i = 0; i < linesArrayOfObjects.length; i++) {
+            //     for (var j = 0; j < checkedFiltersArray.length; j++) {
+            //         checkedFiltersArray[i]
+            //     }
+            // }
+
+            function getByValue4(arr, value) {
+                var o;
+                var isInTheseLines = [];
+
+                for (var i=0, iLen=arr.length; i<iLen; i++) {
+                    o = arr[i];
+
+                    for (var p in o) {
+                        if (o.hasOwnProperty(p) && o[p] == value) {
+                            isInTheseLines.push(i);
+                            // return i;
+                        }
+                    }
+                }
+                console.log(isInTheseLines);
+                return isInTheseLines;
+            }
+
+            // TODO: iterate through checkedFiltersArray to get the indexes where we have match.
+            // we store those indexes and later sorting them them have to make it a unique list.
+            // than we print out the table only with the sorted unified indexes.
+
+            getByValue4(linesArrayOfObjects,checkedFiltersArray[0]);
+            getByValue4(linesArrayOfObjects,checkedFiltersArray[1]);
+
+            // var empIds = getByValue4(linesArrayOfObjects,checkedFiltersArray[0]);
+            // var filteredArray = linesArrayOfObjects.record.filter(function(itm){
+            //     return empIds.indexOf(itm.empid) > -1;
+            // });
+            //
+            // filteredArray = { records : filteredArray };
             // Loop through all table rows, and hide those who don't match the search query
             for (i = 0; i < tr.length; i++) {
                 // Loop through actual row's columns
@@ -226,10 +263,10 @@
             // console.log($(this).attr("name"));
             if ($(this).is(':checked')) {
                 checkedFilters.push($(this).attr("name"));
-                searchTable2(checkedFilters);
+                searchTable(checkedFilters);
             } else {
                 checkedFilters = checkedFilters.filter(e => e !== $(this).attr("name"));
-                searchTable2(checkedFilters);
+                searchTable(checkedFilters);
             }
         });
 
@@ -239,7 +276,7 @@
             // Get input
             input.push(document.getElementById("myInput").value);
             // update panel
-            searchTable2(input);
+            searchTable(input);
         });
 
     </script>
