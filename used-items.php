@@ -13,53 +13,8 @@
             <div class="left-container col-sm-2">
                 <div class="panel panel-default">
                     <div class="panel-heading panel-heading-custom"><b>Szűrők</b></div>
-                    <div class="panel-body filters">
-                        <div class="panel-group">
-                            <div class="panel panel-default noshadow">
-                                <div class="panel-heading">
-                                        <a data-toggle="collapse" href="#collapse-gyarto"><b>Gyártó</b></a>
-                                </div>
-                                <div id="collapse-gyarto" class="panel-collapse collapse in filter">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" value="">Danfoss</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" value="">Eaton</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" value="">Komatsu</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" value="">Linde</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" value="">Rexroth</label>
-                                    </div>
-                                    <div class="panel-footer">Összes</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel-group">
-                            <div class="panel panel-default noshadow">
-                                <div class="panel-heading">
-                                        <a data-toggle="collapse" href="#collapse-allapot"><b>Állapot</b></a>
-                                </div>
-                                <div id="collapse-allapot" class="panel-collapse collapse in filter">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" value="">Használt, tesztelt</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" value="">Javított, tesztelt</label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" value="">Új, tesztelt</label>
-                                    </div>
-                                    <div class="panel-footer">Összes</div>
-                                </div>
-                            </div>
-                        </div>
-
+                    <div class="panel-body filters" id="divFilters">
+                        // Filling up with insertCheckboxes()
                     </div>
                 </div>
             </div>
@@ -80,11 +35,20 @@
     <!-- end of wrapper -->
     <script src="../../js/menu-selector.js"></script>
     <script>
+        var headerNames;
+        var linesArrayOfObjects = [];
+        var htmlContent = "";
         // better to call here (than directly in input field) because of clear button on the right
         $('#myInput').on("input", function() {
             // update panel
             searchTable();
         });
+
+
+
+        function filterTable(filtersArray) {
+
+        }
 
         function searchTable() {
             // Declare variables
@@ -118,22 +82,58 @@
 
         function readTextFile(file) {
 
-            function insertTable(linesArray) {
-                var headerNames = Object.keys(linesArray[0]);
-                var headerNamesHelper;
+            function insertCheckboxes(inCategory) {
+                htmlContent += `
+                <div class="panel-group">
+                    <div class="panel panel-default noshadow">
+                        <div class="panel-heading">
+                                <a data-toggle="collapse" href="#collapse-${inCategory}"><b>${inCategory}</b></a>
+                        </div>
+                        <div id="collapse-${inCategory}" class="panel-collapse collapse in">`;
+
+                // Reading all the inCategory element into an array
+                function unique(arr, prop) {
+                    return arr.map(function(e) { return e[prop]; }).filter(function(e,i,a){
+                        return i === a.indexOf(e);
+                    });
+                }
+                var uniqueArray = (unique(linesArrayOfObjects,inCategory));
+
+                // Creating checkboxes
+                for (var i = 0; i < uniqueArray.length; i++) {
+                    htmlContent += `
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">${uniqueArray[i]}</label>
+                            </div>
+                            `;
+                }
+
+                // Adding footer of filter panel
+                htmlContent += `
+                        </div>
+                    </div>
+                </div>
+                `;
+
+                // Adding content to div
+                document.getElementById('divFilters').innerHTML = htmlContent;
+            }
+
+            function insertTable(linesArrayOfObjects) {
+                headerNames = Object.keys(linesArrayOfObjects[0]);
                 for (var i = 0; i < headerNames.length; i++) {
                     document.getElementById('myTableHeadTr').innerHTML += `<th style="width:30%;">${headerNames[i]}</th>`;
                 }
 
                 var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
-                for (var j = 0; j < linesArray.length; j++) {
+                for (var j = 0; j < linesArrayOfObjects.length; j++) {
                     // Insert a row in the table at row index 0
                     var newRow   = tableRef.insertRow(tableRef.rows.length);
                     for (var k = headerNames.length-1; k >= 0; k--) {
                         // Insert a cell in the row at index 0
                         var newCell  = newRow.insertCell(0);
                         // Append a text node to the cell. Dot notaion not possible as now it can use variable as object property
-                        var newText  = document.createTextNode(`${linesArray[j][headerNames[k]].replace(/\<br\>/g, "\n")}`);
+                        var newText  = document.createTextNode(`${linesArrayOfObjects[j][headerNames[k]].replace(/\<br\>/g, "\n")}`);
                         newCell.appendChild(newText);
                         //document.getElementById('myTableBody').innerHTML += `<td style="width:30%;">${j} ${i}</td>`;
                     }
@@ -156,7 +156,7 @@
                 return lines;
             }
 
-            var linesArray = [];
+
             var rawFile = new XMLHttpRequest();
             rawFile.open("GET", file, true);
             rawFile.onreadystatechange = function() {
@@ -179,18 +179,26 @@
                                     rowObject[columnName] = rowContent[i].replace(/"/g, "");
                                 }
                                 // console.log(rowObject);
-                                // pushing actual rowObject to linesArray
-                                linesArray.push(rowObject);
+                                // pushing actual rowObject to linesArrayOfObjects
+                                linesArrayOfObjects.push(rowObject);
                             }
                         }
-                        //console.table(linesArray);
-                        insertTable(linesArray);
-                        //return linesArray;
+                        // console.table(linesArrayOfObjects);
+
+                        //console.log(linesArrayOfObjects[0]);
+                        insertTable(linesArrayOfObjects);
+                        insertCheckboxes("Kategória");
+                        insertCheckboxes("Állapot");
+                        insertCheckboxes("Gyártó");
+                        //return linesArrayOfObjects;
                     }
                 }
             }
             rawFile.send(null);
+
         }
+
+
 
         readTextFile("used-items.csv");
     </script>
