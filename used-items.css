@@ -1,3 +1,7 @@
+.left-container {
+    padding-right: 0px;
+}
+
 .table-striped > thead {
   background-color: #A5D4BC;
 }

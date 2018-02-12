@@ -38,17 +38,39 @@
         var headerNames;
         var linesArrayOfObjects = [];
         var htmlContent = "";
-        // better to call here (than directly in input field) because of clear button on the right
-        $('#myInput').on("input", function() {
-            // update panel
-            searchTable();
-        });
+        var checkedFilters = [];
 
 
 
-        function filterTable(filtersArray) {
 
-        }
+                function searchTable2(checkedFiltersArray) {
+                    // Declare variables
+                    var filter, table, tr, td, i;
+                    var searchInThis = "";
+                    filter = checkedFiltersArray[0].toUpperCase();
+                    table = document.getElementById("myTable");
+                    tr = table.getElementsByTagName("tr");
+                    th = table.getElementsByTagName("th");
+
+                    // Loop through all table rows, and hide those who don't match the search query
+                    for (i = 0; i < tr.length; i++) {
+                        // Loop through actual row's columns
+                        for (var j = 0; j < th.length; j++)
+                         {
+                            td = tr[i].getElementsByTagName("td")[j];
+                            if (td) {
+                                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                    // if match, then display and set j index to last column so next row can be examined
+                                    tr[i].style.display = "";
+                                    j = th.length-1;
+                                } else if (j === th.length-1) {
+                                    // if not match and it is last column than hide it
+                                    tr[i].style.display = "none";
+                                }
+                            }
+                        }
+                    }
+                }
 
         function searchTable() {
             // Declare variables
@@ -103,7 +125,7 @@
                 for (var i = 0; i < uniqueArray.length; i++) {
                     htmlContent += `
                             <div class="checkbox">
-                                <label><input type="checkbox" value="">${uniqueArray[i]}</label>
+                                <label><input type="checkbox" name="${uniqueArray[i]}">${uniqueArray[i]}</label>
                             </div>
                             `;
                 }
@@ -198,9 +220,28 @@
 
         }
 
-
-
         readTextFile("used-items.csv");
+
+        $(document).on('click', 'input[type="checkbox"]', function(){
+            // console.log($(this).attr("name"));
+            if ($(this).is(':checked')) {
+                checkedFilters.push($(this).attr("name"));
+                searchTable2(checkedFilters);
+            } else {
+                checkedFilters = checkedFilters.filter(e => e !== $(this).attr("name"));
+                searchTable2(checkedFilters);
+            }
+        });
+
+        // better to call here (than directly in input field) because of clear button on the right
+        $('#myInput').on("input", function() {
+            var input = [];
+            // Get input
+            input.push(document.getElementById("myInput").value);
+            // update panel
+            searchTable2(input);
+        });
+
     </script>
     <?php include 'included-phps/footer.php';?>
 </body>
