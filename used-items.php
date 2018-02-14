@@ -82,6 +82,7 @@
         function getByValue4(arr, value, isInTheseLines) {
             var o;
 
+
             for (var i=0, iLen=arr.length; i<iLen; i++) {
                 o = arr[i];
 
@@ -124,7 +125,7 @@
             let uniqueFilters = [...new Set(isInTheseLines)];
             let uniqueSortedFilters = uniqueFilters.sort(function(a, b){return a - b});
 
-            console.log(uniqueSortedFilters);
+            // console.log(uniqueSortedFilters);
 
             // getByValue4(linesArrayOfObjects,checkedFiltersArray[0]);
             // getByValue4(linesArrayOfObjects,checkedFiltersArray[1]);
@@ -158,18 +159,44 @@
             stripeTable();
         }
 
+        var objectForGroups = {};
         var isInTheseLines2 = [];
+        var checkedGrouppedCategories = [];
         function filterTableByCategory(checkedFiltersByCategory) {
+            objectForGroups = {};
+            isInTheseLines2 = [];
+            checkedGrouppedCategories = [];
             for (var i = 0; i < checkedFiltersByCategory.length; i++) {
                 isInTheseLines2 = [];
                 getByValue4(linesArrayOfObjects,checkedFiltersByCategory[i].checkboxName,isInTheseLines2);
                 checkedFiltersByCategory[i].hitInRows = isInTheseLines2;
+                var tmpCatName = checkedFiltersByCategory[i].categoryName;
+                if (!objectForGroups[tmpCatName]) {
+                    objectForGroups[tmpCatName] = [];
+                }
+                objectForGroups[tmpCatName] = objectForGroups[tmpCatName].concat(isInTheseLines2);
             }
+
+            if (Object.keys(objectForGroups).length > 1) {
+                for (var i = 0; i < Object.keys(objectForGroups).length-1; i++) {
+                    checkedGrouppedCategories = objectForGroups[Object.keys(objectForGroups)[i]].filter(function(val) {
+                        return objectForGroups[Object.keys(objectForGroups)[i+1]].indexOf(val) != -1;
+                    });
+                }
+                console.log(checkedGrouppedCategories);
+            } else if (Object.keys(objectForGroups).length = 1) {
+                //checkedGrouppedCategories = objectForGroups[Object.keys(objectForGroups)[0]];
+                console.log("Only one filter selected, please select an other one.");
+            } else {
+                console.log("There's nothing selected, so everything should appear.")
+            }
+
             // TODO We have the array of objects for checkboxes.
             // Have to join the hits to get which rows to show.
             // build up the logical connection between categories (and searchfield too!)
             // have to disable the checkboxes which are not relevant anymore
-            console.log(checkedFiltersByCategory);
+            console.log(objectForGroups);
+            // console.log(checkedFiltersByCategory);
         }
 
         function readTextFile(file) {
