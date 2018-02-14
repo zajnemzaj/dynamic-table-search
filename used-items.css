@@ -2,20 +2,28 @@
     padding-right: 0px;
 }
 
-.table-striped > thead {
+.table > thead {
   background-color: #A5D4BC;
 }
 
-.table-striped > tbody > tr:nth-of-type(odd) {
+/* .table > tbody > tr:nth-of-type(odd) {
   background-color: #EDEDED;
-}
+} */
 
-.table-striped > tbody > tr:nth-of-type(even) {
+.table > tbody > tr {
   background-color: #FAFAFA;
 }
 
 .table-hover > tbody > tr:hover {
-  background-color: #BBE1FF;
+  background-color: #BBE1FF !important;
+}
+
+.stripe {
+  background-color: #EDEDED !important;
+}
+
+.hidden {
+    display:none;
 }
 
 td,th {

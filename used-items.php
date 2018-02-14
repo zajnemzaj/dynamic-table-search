@@ -20,7 +20,7 @@
             </div>
             <div class="right-container col-sm-10">
                 <input type="search" id="myInput" placeholder="Keresés...">
-                <table id="myTable" class="main table table-hover table-condensed table-striped" border="1" cellspacing="0" bordercolor="#D4D4D4" frame="box" rules="all">
+                <table id="myTable" class="main table table-hover table-condensed" border="1" cellspacing="0" bordercolor="#D4D4D4" frame="box" rules="all">
                     <thead>
                         <tr id="myTableHeadTr">
                         </tr>
@@ -73,6 +73,12 @@
                     }
                 }
 
+        function stripeTable() {
+            $("tr:not(.hidden)").each(function (index) {
+                $(this).toggleClass("stripe", !!(index & 1));
+                });
+        }
+
         function searchTable(checkedFiltersArray) {
             // Declare variables
             var filter, table, tr, td, i;
@@ -88,9 +94,9 @@
             //     }
             // }
 
+            var isInTheseLines = [];
             function getByValue4(arr, value) {
                 var o;
-                var isInTheseLines = [];
 
                 for (var i=0, iLen=arr.length; i<iLen; i++) {
                     o = arr[i];
@@ -102,16 +108,25 @@
                         }
                     }
                 }
-                console.log(isInTheseLines);
-                return isInTheseLines;
+                // console.log(isInTheseLines);
+                return 0;
             }
 
             // TODO: iterate through checkedFiltersArray to get the indexes where we have match.
             // we store those indexes and later sorting them them have to make it a unique list.
             // than we print out the table only with the sorted unified indexes.
+            var joinedFilters = [];
+            for (var i = 0; i < checkedFiltersArray.length; i++) {
+                getByValue4(linesArrayOfObjects,checkedFiltersArray[i]);
+            }
 
-            getByValue4(linesArrayOfObjects,checkedFiltersArray[0]);
-            getByValue4(linesArrayOfObjects,checkedFiltersArray[1]);
+            let uniqueFilters = [...new Set(isInTheseLines)];
+            let uniqueSortedFilters = uniqueFilters.sort(function(a, b){return a - b});
+
+            console.log(uniqueSortedFilters);
+
+            // getByValue4(linesArrayOfObjects,checkedFiltersArray[0]);
+            // getByValue4(linesArrayOfObjects,checkedFiltersArray[1]);
 
             // var empIds = getByValue4(linesArrayOfObjects,checkedFiltersArray[0]);
             // var filteredArray = linesArrayOfObjects.record.filter(function(itm){
@@ -128,15 +143,18 @@
                     if (td) {
                         if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
                             // if match, then display and set j index to last column so next row can be examined
-                            tr[i].style.display = "";
+                            // tr[i].style.display = "";
+                            tr[i].classList.remove("hidden");
                             j = th.length-1;
                         } else if (j === th.length-1) {
                             // if not match and it is last column than hide it
-                            tr[i].style.display = "none";
+                            // tr[i].style.display = "none";
+                            tr[i].classList.add("hidden");
                         }
                     }
                 }
             }
+            stripeTable();
         }
 
         function readTextFile(file) {
@@ -156,13 +174,13 @@
                         return i === a.indexOf(e);
                     });
                 }
-                var uniqueArray = (unique(linesArrayOfObjects,inCategory));
+                var uniqueArrayForCheckboxes = (unique(linesArrayOfObjects,inCategory));
 
                 // Creating checkboxes
-                for (var i = 0; i < uniqueArray.length; i++) {
+                for (var i = 0; i < uniqueArrayForCheckboxes.length; i++) {
                     htmlContent += `
                             <div class="checkbox">
-                                <label><input type="checkbox" name="${uniqueArray[i]}">${uniqueArray[i]}</label>
+                                <label><input type="checkbox" name="${uniqueArrayForCheckboxes[i]}">${uniqueArrayForCheckboxes[i]}</label>
                             </div>
                             `;
                 }
@@ -197,6 +215,7 @@
                         //document.getElementById('myTableBody').innerHTML += `<td style="width:30%;">${j} ${i}</td>`;
                     }
                 }
+                stripeTable();
             }
 
             function splitTextToLines(allText) {
