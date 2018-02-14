@@ -39,8 +39,8 @@
         var linesArrayOfObjects = [];
         var htmlContent = "";
         var checkedFilters = [];
-
-
+        var checkedFiltersByCategory = [];
+        var isInTheseLines = [];
 
 
 
@@ -79,6 +79,23 @@
                 });
         }
 
+        function getByValue4(arr, value, isInTheseLines) {
+            var o;
+
+            for (var i=0, iLen=arr.length; i<iLen; i++) {
+                o = arr[i];
+
+                for (var p in o) {
+                    if (o.hasOwnProperty(p) && o[p] == value) {
+                        isInTheseLines.push(i);
+                        // return i;
+                    }
+                }
+            }
+            // console.log(isInTheseLines);
+            return 0;
+        }
+
         function searchTable(checkedFiltersArray) {
             // Declare variables
             var filter, table, tr, td, i;
@@ -94,30 +111,14 @@
             //     }
             // }
 
-            var isInTheseLines = [];
-            function getByValue4(arr, value) {
-                var o;
+            isInTheseLines = [];
 
-                for (var i=0, iLen=arr.length; i<iLen; i++) {
-                    o = arr[i];
-
-                    for (var p in o) {
-                        if (o.hasOwnProperty(p) && o[p] == value) {
-                            isInTheseLines.push(i);
-                            // return i;
-                        }
-                    }
-                }
-                // console.log(isInTheseLines);
-                return 0;
-            }
 
             // TODO: iterate through checkedFiltersArray to get the indexes where we have match.
             // we store those indexes and later sorting them them have to make it a unique list.
             // than we print out the table only with the sorted unified indexes.
-            var joinedFilters = [];
             for (var i = 0; i < checkedFiltersArray.length; i++) {
-                getByValue4(linesArrayOfObjects,checkedFiltersArray[i]);
+                getByValue4(linesArrayOfObjects,checkedFiltersArray[i],isInTheseLines);
             }
 
             let uniqueFilters = [...new Set(isInTheseLines)];
@@ -157,6 +158,20 @@
             stripeTable();
         }
 
+        var isInTheseLines2 = [];
+        function filterTableByCategory(checkedFiltersByCategory) {
+            for (var i = 0; i < checkedFiltersByCategory.length; i++) {
+                isInTheseLines2 = [];
+                getByValue4(linesArrayOfObjects,checkedFiltersByCategory[i].checkboxName,isInTheseLines2);
+                checkedFiltersByCategory[i].hitInRows = isInTheseLines2;
+            }
+            // TODO We have the array of objects for checkboxes.
+            // Have to join the hits to get which rows to show.
+            // build up the logical connection between categories (and searchfield too!)
+            // have to disable the checkboxes which are not relevant anymore
+            console.log(checkedFiltersByCategory);
+        }
+
         function readTextFile(file) {
 
             function insertCheckboxes(inCategory) {
@@ -164,9 +179,9 @@
                 <div class="panel-group">
                     <div class="panel panel-default noshadow">
                         <div class="panel-heading">
-                                <a data-toggle="collapse" href="#collapse-${inCategory}"><b>${inCategory}</b></a>
+                                <a data-toggle="collapse" href="#${inCategory}"><b>${inCategory}</b></a>
                         </div>
-                        <div id="collapse-${inCategory}" class="panel-collapse collapse in">`;
+                        <div id="${inCategory}" class="panel-collapse collapse in">`;
 
                 // Reading all the inCategory element into an array
                 function unique(arr, prop) {
@@ -279,12 +294,26 @@
         readTextFile("used-items.csv");
 
         $(document).on('click', 'input[type="checkbox"]', function(){
+            var clickedCheckboxName = $(this).attr("name");
             // console.log($(this).attr("name"));
             if ($(this).is(':checked')) {
-                checkedFilters.push($(this).attr("name"));
+                checkedFilters.push(clickedCheckboxName);
+                // Get parent to see in which category is in it and store it in an object with property names as category
+                var selectedObject = {};
+                // Getting the id of collapse to identify in which category is click the checkbox
+                selectedObject.categoryName = $(this).parent().parent().parent().attr('id');
+                selectedObject.checkboxName = clickedCheckboxName;
+                checkedFiltersByCategory.push(selectedObject);
+                filterTableByCategory(checkedFiltersByCategory);
                 searchTable(checkedFilters);
             } else {
-                checkedFilters = checkedFilters.filter(e => e !== $(this).attr("name"));
+                checkedFilters = checkedFilters.filter(e => e !== clickedCheckboxName);
+
+                checkedFiltersByCategory = checkedFiltersByCategory.filter(function( obj ) {
+                    return obj.checkboxName !== clickedCheckboxName;
+                });
+
+                filterTableByCategory(checkedFiltersByCategory);
                 searchTable(checkedFilters);
             }
         });
