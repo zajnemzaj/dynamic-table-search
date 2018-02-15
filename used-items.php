@@ -88,7 +88,7 @@
 
                 for (var p in o) {
                     if (o.hasOwnProperty(p) && o[p] == value) {
-                        isInTheseLines.push(i);
+                        isInTheseLines.push(i+1);
                         // return i;
                     }
                 }
@@ -159,13 +159,25 @@
             stripeTable();
         }
 
-        var objectForGroups = {};
-        var isInTheseLines2 = [];
-        var checkedGrouppedCategories = [];
+        function filterTableByIndex(linesArrayOfObjects,checkedGrouppedCategories) {
+
+
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 1; i < tr.length; i++) {
+                if (checkedGrouppedCategories.includes(i)) {
+                    tr[i].classList.remove("hidden");
+                } else {
+                    tr[i].classList.add("hidden");
+                }
+            }
+            stripeTable();
+        }
+
         function filterTableByCategory(checkedFiltersByCategory) {
-            objectForGroups = {};
-            isInTheseLines2 = [];
-            checkedGrouppedCategories = [];
+            var objectForGroups = {};
+            var isInTheseLines2 = [];
+            var checkedGrouppedCategories = [];
             for (var i = 0; i < checkedFiltersByCategory.length; i++) {
                 isInTheseLines2 = [];
                 getByValue4(linesArrayOfObjects,checkedFiltersByCategory[i].checkboxName,isInTheseLines2);
@@ -183,19 +195,29 @@
                         return objectForGroups[Object.keys(objectForGroups)[i+1]].indexOf(val) != -1;
                     });
                 }
-                console.log(checkedGrouppedCategories);
-            } else if (Object.keys(objectForGroups).length = 1) {
-                //checkedGrouppedCategories = objectForGroups[Object.keys(objectForGroups)[0]];
-                console.log("Only one filter selected, please select an other one.");
+                console.log("Filtered rows:");
+                // console.log(checkedGrouppedCategories);
+                filterTableByIndex(linesArrayOfObjects,checkedGrouppedCategories);
+            } else if (Object.keys(objectForGroups).length === 1) {
+                checkedGrouppedCategories = objectForGroups[Object.keys(objectForGroups)[0]];
+                console.log("Only one group of filter selected:");
+                // console.log(checkedGrouppedCategories);
+                filterTableByIndex(linesArrayOfObjects,checkedGrouppedCategories);
             } else {
                 console.log("There's nothing selected, so everything should appear.")
+                var iterator = linesArrayOfObjects.keys();
+                checkedGrouppedCategories = [];
+                for (let key of iterator) {
+                    checkedGrouppedCategories.push(key);
+                }
+                filterTableByIndex(linesArrayOfObjects,checkedGrouppedCategories);
             }
 
             // TODO We have the array of objects for checkboxes.
             // Have to join the hits to get which rows to show.
             // build up the logical connection between categories (and searchfield too!)
             // have to disable the checkboxes which are not relevant anymore
-            console.log(objectForGroups);
+            // console.log(objectForGroups);
             // console.log(checkedFiltersByCategory);
         }
 
@@ -332,7 +354,7 @@
                 selectedObject.checkboxName = clickedCheckboxName;
                 checkedFiltersByCategory.push(selectedObject);
                 filterTableByCategory(checkedFiltersByCategory);
-                searchTable(checkedFilters);
+                // searchTable(checkedFilters);
             } else {
                 checkedFilters = checkedFilters.filter(e => e !== clickedCheckboxName);
 
@@ -341,7 +363,7 @@
                 });
 
                 filterTableByCategory(checkedFiltersByCategory);
-                searchTable(checkedFilters);
+                // searchTable(checkedFilters);
             }
         });
 
