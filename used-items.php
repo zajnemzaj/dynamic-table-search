@@ -14,7 +14,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading panel-heading-custom"><b>Szűrők</b></div>
                     <div class="panel-body filters" id="divFilters">
-                        // Filling up with insertCheckboxes()
+                        <!-- Filling up with insertCheckboxes() -->
                     </div>
                 </div>
             </div>
@@ -178,6 +178,7 @@
             var objectForGroups = {};
             var isInTheseLines2 = [];
             var checkedGrouppedCategories = [];
+            var arrayObjectKeysOfGroups = [];
             for (var i = 0; i < checkedFiltersByCategory.length; i++) {
                 isInTheseLines2 = [];
                 getByValue4(linesArrayOfObjects,checkedFiltersByCategory[i].checkboxName,isInTheseLines2);
@@ -188,23 +189,22 @@
                 }
                 objectForGroups[tmpCatName] = objectForGroups[tmpCatName].concat(isInTheseLines2);
             }
-
-            if (Object.keys(objectForGroups).length > 1) {
-                for (var i = 0; i < Object.keys(objectForGroups).length-1; i++) {
-                    checkedGrouppedCategories = objectForGroups[Object.keys(objectForGroups)[i]].filter(function(val) {
-                        return objectForGroups[Object.keys(objectForGroups)[i+1]].indexOf(val) != -1;
+            arrayObjectKeysOfGroups = Object.keys(objectForGroups);
+            if (arrayObjectKeysOfGroups.length > 1) {
+                checkedGrouppedCategories = objectForGroups[arrayObjectKeysOfGroups[0]];
+                for (var i = 1; i < arrayObjectKeysOfGroups.length; i++) {
+                    checkedGrouppedCategories = checkedGrouppedCategories.filter(function(val) {
+                        return objectForGroups[arrayObjectKeysOfGroups[i]].indexOf(val) != -1;
                     });
                 }
-                console.log("Filtered rows:");
-                // console.log(checkedGrouppedCategories);
+                console.log("Filtered rows:" + checkedGrouppedCategories);
                 filterTableByIndex(linesArrayOfObjects,checkedGrouppedCategories);
-            } else if (Object.keys(objectForGroups).length === 1) {
-                checkedGrouppedCategories = objectForGroups[Object.keys(objectForGroups)[0]];
-                console.log("Only one group of filter selected:");
-                // console.log(checkedGrouppedCategories);
+            } else if (arrayObjectKeysOfGroups.length === 1) {
+                checkedGrouppedCategories = objectForGroups[arrayObjectKeysOfGroups[0]];
+                console.log("Only one group of filter selected: " + checkedGrouppedCategories);
                 filterTableByIndex(linesArrayOfObjects,checkedGrouppedCategories);
             } else {
-                console.log("There's nothing selected, so everything should appear.")
+                console.log("There's nothing selected, so everything should appear.");
                 var iterator = linesArrayOfObjects.keys();
                 checkedGrouppedCategories = [];
                 for (let key of iterator) {
@@ -303,7 +303,7 @@
             rawFile.open("GET", file, true);
             rawFile.onreadystatechange = function() {
                 if (rawFile.readyState === 4) {
-                    if (rawFile.status === 200 || rawFile.status == 0) {
+                    if (rawFile.status === 200 || rawFile.status === 0) {
                         var allText = rawFile.responseText;
                         var lines = splitTextToLines(allText);
                         // going through lines
