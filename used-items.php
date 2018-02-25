@@ -10,7 +10,7 @@
     <div id="wrapper">
         <?php include 'included-phps/menu-visitors.php';?>
         <div class="container">
-            <div class="left-container col-sm-2">
+            <div class="left-container sm-hidden col-sm-2">
                 <div class="panel panel-default">
                     <div class="panel-heading panel-heading-custom"><b>Szűrők</b></div>
                     <div class="panel-body filters" id="divFilters">
@@ -19,7 +19,12 @@
                 </div>
             </div>
             <div class="right-container col-sm-10">
-                <input type="search" id="myInput" placeholder="Keresés...">
+                <div class="input-group">
+                    <span class="input-group-btn lg-hidden">
+                        <button class="btn btn-default" type="button">Szűrők</button>
+                    </span>
+                    <input type="search" class="form-control" id="myInput" placeholder="Keresés...">
+                </div>
                 <table id="myTable" class="main table table-hover table-condensed" border="1" cellspacing="0" bordercolor="#D4D4D4" frame="box" rules="all">
                     <thead>
                         <tr id="myTableHeadTr">
