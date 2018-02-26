@@ -11,14 +11,16 @@
         <?php include 'included-phps/menu-visitors.php';?>
         <div class="container">
             <div class="left-container sm-hidden col-sm-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading panel-heading-custom"><b>Szűrők</b></div>
-                    <div class="panel-body filters" id="divFilters">
-                        <!-- Filling up with insertCheckboxes() -->
+                <div id="divFilters">
+                    <div class="panel panel-default">
+                        <div class="panel-heading panel-heading-custom"><b>Szűrők</b></div>
+                        <div class="panel-body filters" id="divFilters">
+                            <!-- Filling up with insertCheckboxes() -->
+                        </div>
                     </div>
                 </div>
             </div>
-            <div id="divFilters" class="right-container col-sm-10">
+            <div class="right-container col-sm-10">
                 <div class="input-group">
                     <span class="input-group-btn lg-hidden">
                         <button type="button" id="buttonsFilterAtSearch" class="btn btn-default">Szűrők</button>
@@ -37,7 +39,6 @@
         </div> <!-- end of container -->
         <div id="divSideFilters">
             <button type="button" id="btnCloseSideFilters" class="btn">&times;</button>
-            <p>blabh</p>
         </div>
     </div> <!-- end of wrapper -->
     <script src="../../js/menu-selector.js"></script>
@@ -388,7 +389,7 @@
             /* $('#sidebar').removeClass('active');
              $('.overlay').fadeOut(); */
              $('#divSideFilters').hide();
-             $('#divFilters').detach().appendTo('.right-container');
+             $('#divFilters').detach().appendTo('.left-container');
              // $(".right-container").append();
         });
 
