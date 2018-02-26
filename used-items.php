@@ -18,10 +18,10 @@
                     </div>
                 </div>
             </div>
-            <div class="right-container col-sm-10">
+            <div id="divFilters" class="right-container col-sm-10">
                 <div class="input-group">
                     <span class="input-group-btn lg-hidden">
-                        <button class="btn btn-default" type="button">Szűrők</button>
+                        <button type="button" id="buttonsFilterAtSearch" class="btn btn-default">Szűrők</button>
                     </span>
                     <input type="search" class="form-control" id="myInput" placeholder="Keresés...">
                 </div>
@@ -34,10 +34,12 @@
                     </tbody>
                 </table>
             </div>
+        </div> <!-- end of container -->
+        <div id="divSideFilters">
+            <button type="button" id="btnCloseSideFilters" class="btn">&times;</button>
+            <p>blabh</p>
         </div>
-        <!-- end of container -->
-    </div>
-    <!-- end of wrapper -->
+    </div> <!-- end of wrapper -->
     <script src="../../js/menu-selector.js"></script>
     <script>
         var headerNames;
@@ -379,6 +381,30 @@
             input.push(document.getElementById("myInput").value);
             // update panel
             searchTable(input);
+        });
+
+        // Sidebar Filters button handler
+        $('#btnCloseSideFilters, .overlay').on('click', function () {
+            /* $('#sidebar').removeClass('active');
+             $('.overlay').fadeOut(); */
+             $('#divSideFilters').hide();
+             $('#divFilters').detach().appendTo('.right-container');
+             // $(".right-container").append();
+        });
+
+        $('#buttonsFilterAtSearch').on('click', function () {
+            // $('.left-container').css("display","block");
+            // above is equivalent to this:
+            // $('.left-container').show();
+            $('#divSideFilters').show();
+            // var varFilter = $('#divFilters');
+            // $("#divSideFilters").append($('#divFilters'));
+            $('#divFilters').detach().appendTo('#divSideFilters');
+            // $('.overlay').fadeIn();
+            /*$('#sidebar').addClass('active');
+            $('.overlay').fadeIn();
+            $('.collapse.in').toggleClass('in');
+            $('a[aria-expanded=true]').attr('aria-expanded', 'false');*/
         });
 
     </script>
