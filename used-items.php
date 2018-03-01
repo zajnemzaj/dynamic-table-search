@@ -11,8 +11,8 @@
         <?php include 'included-phps/menu-visitors.php';?>
         <div class="container">
             <div class="left-container sm-hidden col-sm-2">
-                <div id="divFilters">
-                    <div class="panel panel-default">
+                <div>
+                    <div id="panelFilter" class="panel panel-default">
                         <div class="panel-heading panel-heading-custom"><b>Szűrők</b></div>
                         <div class="panel-body filters" id="divFilters">
                             <!-- Filling up with insertCheckboxes() -->
@@ -36,11 +36,22 @@
                     </tbody>
                 </table>
             </div>
-        </div> <!-- end of container -->
+        </div> <!-- end of .container -->
         <div id="divSideFilters">
-            <button type="button" id="btnCloseSideFilters" class="btn">&times;</button>
+            <div id="divBtnCloseSideFilters">
+                <i id="btnCloseSideFilters" class="glyphicon glyphicon-arrow-left"></i>
+            </div>
         </div>
-    </div> <!-- end of wrapper -->
+        <div class="overlay"><div>
+    </div> <!-- end of .wrapper -->
+
+
+
+
+
+
+
+
     <script src="../../js/menu-selector.js"></script>
     <script>
         var headerNames;
@@ -386,10 +397,10 @@
 
         // Sidebar Filters button handler
         $('#btnCloseSideFilters, .overlay').on('click', function () {
-            /* $('#sidebar').removeClass('active');
-             $('.overlay').fadeOut(); */
+            /* $('#sidebar').removeClass('active'); */
+             $('.overlay').fadeOut();
              $('#divSideFilters').hide();
-             $('#divFilters').detach().appendTo('.left-container');
+             $('#divFilters').detach().appendTo('#panelFilter');
              // $(".right-container").append();
         });
 
@@ -401,11 +412,18 @@
             // var varFilter = $('#divFilters');
             // $("#divSideFilters").append($('#divFilters'));
             $('#divFilters').detach().appendTo('#divSideFilters');
-            // $('.overlay').fadeIn();
+            $('.overlay').fadeIn();
             /*$('#sidebar').addClass('active');
             $('.overlay').fadeIn();
             $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').attr('aria-expanded', 'false');*/
+            $('a[aria-expanded=true]').prop('aria-expanded', 'false');*/
+        });
+
+
+        // TODO: to see if it works
+        $(".checkbox").on('click', function (e) {
+            cb = $(e.target).children(":checkbox");
+            cb.prop("checked", !cb.prop("checked"));
         });
 
     </script>
