@@ -4,6 +4,7 @@
 <head>
     <?php include 'included-phps/head.php';?>
     <link rel="stylesheet" href="used-items.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -263,7 +264,11 @@
                 for (var i = 0; i < uniqueArrayForCheckboxes.length; i++) {
                     htmlContent += `
                             <div class="checkbox">
-                                <label><input type="checkbox" name="${uniqueArrayForCheckboxes[i]}">${uniqueArrayForCheckboxes[i]}</label>
+                                <label class="label-container">
+                                    <input type="checkbox" name="${uniqueArrayForCheckboxes[i]}">
+                                    ${uniqueArrayForCheckboxes[i]}
+                                    <span class="checkmark"></span>
+                                </label>
                             </div>
                             `;
                 }
@@ -421,10 +426,10 @@
 
 
         // TODO: to see if it works
-        $(".checkbox").on('click', function (e) {
-            cb = $(e.target).children(":checkbox");
-            cb.prop("checked", !cb.prop("checked"));
-        });
+        // $(".checkbox").on('click', function (e) {
+        //     cb = $(e.target).children(":checkbox");
+        //     cb.prop("checked", !cb.prop("checked"));
+        // });
 
     </script>
     <?php include 'included-phps/footer.php';?>
