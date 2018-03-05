@@ -2,9 +2,14 @@
 <html>
 
 <head>
+    <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script> -->
+    <!-- <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet"> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
     <?php include 'included-phps/head.php';?>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <!-- it has to be AFTER cutom font css -->
     <link rel="stylesheet" href="used-items.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -247,8 +252,12 @@
                 htmlContent += `
                 <div class="panel-group">
                     <div class="panel panel-default noshadow">
-                        <div class="panel-heading">
-                                <a data-toggle="collapse" href="#${inCategory}"><b>${inCategory}</b></a>
+                        <div class="panel-heading filters-heading">
+                            <div class="panel-title">
+                                <a data-toggle="collapse" href="#${inCategory}" aria-expanded="true">
+                                    <b>${inCategory}</b>
+                                </a>
+                            </div>
                         </div>
                         <div id="${inCategory}" class="panel-collapse collapse in">`;
 
@@ -423,13 +432,6 @@
             $('.collapse.in').toggleClass('in');
             $('a[aria-expanded=true]').prop('aria-expanded', 'false');*/
         });
-
-
-        // TODO: to see if it works
-        // $(".checkbox").on('click', function (e) {
-        //     cb = $(e.target).children(":checkbox");
-        //     cb.prop("checked", !cb.prop("checked"));
-        // });
 
     </script>
     <?php include 'included-phps/footer.php';?>

@@ -332,3 +332,40 @@ input {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
+/* accordion rotation of arrow icon */
+/* #panelFilter .filters-heading a:before {
+  content: '\f106';
+  content: '\e316';
+  font-size: 15px;
+  position: relative;
+  font-family: 'FontAwesome';
+  font-family: 'Material Icons';
+  right: -80px;
+  top: 10px;
+  transform: rotate(180deg);
+  transition: all 0.5s;
+} */
+
+/* #panelFilter .filters-heading.active a:before {
+  transform: rotate(0deg);
+  transition: all 0.5s;
+} */
+
+.panel-title > a {
+  display: block;
+  position: relative;
+  color: #4285c1 !important;
+  font-size: 14px;
+}
+.panel-title > a:after {
+  content: "\f107"; /* fa-chevron-down */
+  font-family: 'FontAwesome';
+  font-size: 20px;
+  position: absolute;
+  right: 0;
+  top: -4px;
+}
+.panel-title > a[aria-expanded="true"]:after {
+  content: "\f106"; /* fa-chevron-up */
+}
