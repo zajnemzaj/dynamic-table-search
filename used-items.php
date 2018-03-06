@@ -107,7 +107,6 @@
         function getByValue4(arr, value, isInTheseLines) {
             var o;
 
-
             for (var i=0, iLen=arr.length; i<iLen; i++) {
                 o = arr[i];
 
@@ -131,18 +130,8 @@
             tr = table.getElementsByTagName("tr");
             th = table.getElementsByTagName("th");
 
-            // for (var i = 0; i < linesArrayOfObjects.length; i++) {
-            //     for (var j = 0; j < checkedFiltersArray.length; j++) {
-            //         checkedFiltersArray[i]
-            //     }
-            // }
-
             isInTheseLines = [];
 
-
-            // TODO: iterate through checkedFiltersArray to get the indexes where we have match.
-            // we store those indexes and later sorting them them have to make it a unique list.
-            // than we print out the table only with the sorted unified indexes.
             for (var i = 0; i < checkedFiltersArray.length; i++) {
                 getByValue4(linesArrayOfObjects,checkedFiltersArray[i],isInTheseLines);
             }
@@ -150,18 +139,6 @@
             let uniqueFilters = [...new Set(isInTheseLines)];
             let uniqueSortedFilters = uniqueFilters.sort(function(a, b){return a - b});
 
-            // console.log(uniqueSortedFilters);
-
-            // getByValue4(linesArrayOfObjects,checkedFiltersArray[0]);
-            // getByValue4(linesArrayOfObjects,checkedFiltersArray[1]);
-
-            // var empIds = getByValue4(linesArrayOfObjects,checkedFiltersArray[0]);
-            // var filteredArray = linesArrayOfObjects.record.filter(function(itm){
-            //     return empIds.indexOf(itm.empid) > -1;
-            // });
-            //
-            // filteredArray = { records : filteredArray };
-            // Loop through all table rows, and hide those who don't match the search query
             for (i = 0; i < tr.length; i++) {
                 // Loop through actual row's columns
                 for (var j = 0; j < th.length; j++)
@@ -386,6 +363,20 @@
                 selectedObject.categoryName = $(this).parent().parent().parent().attr('id');
                 selectedObject.checkboxName = clickedCheckboxName;
                 checkedFiltersByCategory.push(selectedObject);
+// TODO HANDLING SEARCH FIELD
+
+
+                // if (document.getElementById("myInput").value !== selectedObject.checkboxName) {
+                //     checkedFiltersByCategory = checkedFiltersByCategory.filter(function(el) {
+                //         return el.categoryName !== "searchWord";
+                //     });
+                //     selectedObject = {};
+                //     selectedObject.categoryName = "searchWord";
+                //     selectedObject.checkboxName = document.getElementById("myInput").value;
+                //     checkedFiltersByCategory.push(selectedObject);
+                // }
+
+                console.log(checkedFiltersByCategory);
                 filterTableByCategory(checkedFiltersByCategory);
                 // searchTable(checkedFilters);
             } else {
@@ -394,6 +385,16 @@
                 checkedFiltersByCategory = checkedFiltersByCategory.filter(function( obj ) {
                     return obj.checkboxName !== clickedCheckboxName;
                 });
+// TODO HANDLING SEARCH FIELD
+                                // if (document.getElementById("myInput").value !== selectedObject.checkboxName) {
+                                //     checkedFiltersByCategory = checkedFiltersByCategory.filter(function(el) {
+                                //         return el.categoryName !== "searchWord";
+                                //     });
+                                //     selectedObject = {};
+                                //     selectedObject.categoryName = "searchWord";
+                                //     selectedObject.checkboxName = document.getElementById("myInput").value;
+                                //     checkedFiltersByCategory.push(selectedObject);
+                                // }
 
                 filterTableByCategory(checkedFiltersByCategory);
                 // searchTable(checkedFilters);
