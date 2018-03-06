@@ -323,7 +323,7 @@ input {
 
 .label-container .checkmark:after {
     left: 5px;
-    top: 2px;
+    top: 1px;
     width: 6px;
     height: 10px;
     border: solid white;
@@ -352,6 +352,8 @@ input {
   transition: all 0.5s;
 } */
 
+/* Arrows on filter's heading on sidebar */
+
 .panel-title > a {
   display: block;
   position: relative;
@@ -360,12 +362,16 @@ input {
 }
 .panel-title > a:after {
   content: "\f107"; /* fa-chevron-down */
+  /* transform: rotate(180deg);
+  transition: all 0.5s; */
   font-family: 'FontAwesome';
   font-size: 20px;
   position: absolute;
   right: 0;
-  top: -4px;
+  top: -5px;
 }
 .panel-title > a[aria-expanded="true"]:after {
   content: "\f106"; /* fa-chevron-up */
+  /* transform: rotate(-180deg);
+  transition: all 0.5s; */
 }
