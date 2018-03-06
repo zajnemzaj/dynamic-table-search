@@ -214,6 +214,7 @@ input {
 
 .panel-heading-custom {
     background-color: #bfd6e4 !important;
+
 }
 
 .panel-body {
@@ -323,7 +324,7 @@ input {
 
 .label-container .checkmark:after {
     left: 5px;
-    top: 1px;
+    top: 2px;
     width: 6px;
     height: 10px;
     border: solid white;
@@ -362,8 +363,8 @@ input {
 }
 .panel-title > a:after {
   content: "\f107"; /* fa-chevron-down */
-  /* transform: rotate(180deg);
-  transition: all 0.5s; */
+  transform: rotate(90deg);
+  transition: all 0.5s;
   font-family: 'FontAwesome';
   font-size: 20px;
   position: absolute;
@@ -371,7 +372,15 @@ input {
   top: -5px;
 }
 .panel-title > a[aria-expanded="true"]:after {
-  content: "\f106"; /* fa-chevron-up */
-  /* transform: rotate(-180deg);
-  transition: all 0.5s; */
+  content: "\f107"; /* fa-chevron-up */
+  transform: rotate(0deg);
+  transition: all 0.5s;
+}
+.panel-title > a[aria-expanded="true"]:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: #bd3a3a;
 }
