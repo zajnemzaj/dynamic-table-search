@@ -38,6 +38,10 @@
                 <!-- </div> -->
             </div> <!-- End of .left-container -->
 
+            <div id="actualFilters" class="actual-filters">
+                <p>Aktív szűrők: </p>
+            </div> <!-- End of .actual-filters -->
+
             <!-- Right-container for filtered table -->
             <div class="right-container col-sm-10">
                 <!-- Div for search input field and filters button -->
@@ -61,7 +65,7 @@
 
         </div> <!-- End of .container -->
 
-        <div class="overlay"><div>
+        <div class="overlay"></div>
 
     </div> <!-- End of .wrapper -->
 
@@ -284,7 +288,9 @@
 
         $(document).on('click', 'input[type="checkbox"]', function(){
             var clickedCheckboxName = $(this).attr("name");
-            // console.log($(this).attr("name"));
+            var clickedCheckboxNameId = clickedCheckboxName.replace(/\s/g, '').replace(/\,/g,"");
+            var filtersHtmlContent = "";
+            // If clicked on one of the checkboxes
             if ($(this).is(':checked')) {
                 checkedFilters.push(clickedCheckboxName);
                 // Get parent to see in which category is in it and store it in an object with property names as category
@@ -294,11 +300,23 @@
                 selectedObject.checkboxName = clickedCheckboxName;
                 checkedFiltersByCategory.push(selectedObject);
                 filterTableByCategory(checkedFiltersByCategory);
+                // Adding checked category to Active filters list
+                filtersHtmlContent = `
+                    <button type="button" id="${clickedCheckboxNameId}" class="btn-filter btn btn-labeled btn-info btn-xs">
+                        ${clickedCheckboxName}
+                        <span class="btn-label">
+                            <i class="glyphicon glyphicon-remove"></i>
+                            </span>
+                    </button>
+                `;
+                document.getElementById('actualFilters').innerHTML += filtersHtmlContent;
+            // if clicked on an already checked checkbox
             } else {
                 checkedFilters = checkedFilters.filter(e => e !== clickedCheckboxName);
                 checkedFiltersByCategory = checkedFiltersByCategory.filter(function( obj ) {
                     return obj.checkboxName !== clickedCheckboxName;
                 });
+                $("#" + clickedCheckboxNameId).fadeOut().detach();
                 filterTableByCategory(checkedFiltersByCategory);
             }
         });
@@ -319,18 +337,25 @@
             filterTableByCategory(checkedFiltersByCategory);
         });
 
-        // Sidebar Filters button handler
+        // Sidebar filters close button handler (visible only on mobile view)
         $('#btnCloseSideFilters, .overlay').on('click', function () {
              $('.overlay').fadeOut();
              $('#divSideFilters').hide();
              $('#divFilters').detach().appendTo('#panelFilter');
         });
 
+        // Sidebar filters search button handler (visible only on mobile view)
         $('#buttonsFilterAtSearch').on('click', function () {
             $('#divSideFilters').show();
             $('#divFilters').detach().appendTo('#divSideFilters');
             $('.overlay').fadeIn();
         });
+
+        // Actual filters close buttons handler
+        $("#actualFilters").on("click", ".btn-label", function() {
+            $(this).parent().fadeOut().detach();
+        });
+
 
     </script>
     <?php include 'included-phps/footer.php';?>
