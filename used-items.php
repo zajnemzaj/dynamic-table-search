@@ -2,56 +2,71 @@
 <html>
 
 <head>
-    <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script> -->
-    <!-- <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet"> -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+    <!-- Including the head for Bootstrap, jQuery an others -->
     <?php include 'included-phps/head.php';?>
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
-    <!-- it has to be AFTER cutom font css -->
+    <!-- Font needed only for arrows on filters -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+    <!-- Our css has to be after custom font css so it can use it -->
     <link rel="stylesheet" href="used-items.css">
 </head>
 
 <body>
     <div id="wrapper">
+        <!-- Including the Bootstrap menu -->
         <?php include 'included-phps/menu-visitors.php';?>
+
         <div class="container">
+
+            <!-- Div for sidebar filters on mobile view. Filling it up with JS -->
+            <div id="divSideFilters">
+                <div id="divBtnCloseSideFilters">
+                    <i id="btnCloseSideFilters" class="glyphicon glyphicon-arrow-left"></i>
+                </div>
+            </div> <!-- End of #divSideFilters -->
+
+            <!-- Left-container for filters on desktop view -->
             <div class="left-container sm-hidden col-sm-2">
-                <div>
+                <!-- <div> Let's see if we can live without this div -->
                     <div id="panelFilter" class="panel panel-default">
-                        <div class="panel-heading panel-heading-custom"><b>Szűrők</b></div>
+                        <div class="panel-heading panel-heading-custom">
+                            <b>Szűrők</b>
+                        </div>
                         <div class="panel-body filters" id="divFilters">
                             <!-- Filling up with insertCheckboxes() -->
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div> <!-- End of #panelFilter -->
+                <!-- </div> -->
+            </div> <!-- End of .left-container -->
+
+            <!-- Right-container for filtered table -->
             <div class="right-container col-sm-10">
+                <!-- Div for search input field and filters button -->
                 <div class="input-group">
+                    <!-- Button for filters. Only visible on mobile view -->
                     <span class="input-group-btn lg-hidden">
                         <button type="button" id="buttonsFilterAtSearch" class="btn btn-default">Szűrők</button>
                     </span>
+                    <!-- Input field for searching by word -->
                     <input type="search" class="form-control" id="myInput" placeholder="Keresés...">
-                </div>
+                </div> <!-- End of .input-group -->
+                <!-- Table frame. We will fill it up with JS -->
                 <table id="myTable" class="main table table-hover table-condensed" border="1" cellspacing="0" bordercolor="#D4D4D4" frame="box" rules="all">
                     <thead>
-                        <tr id="myTableHeadTr">
-                        </tr>
+                        <tr id="myTableHeadTr"></tr>
                     </thead>
                     <tbody id="myTableBody">
                     </tbody>
                 </table>
-            </div>
-        </div> <!-- end of .container -->
-        <div id="divSideFilters">
-            <div id="divBtnCloseSideFilters">
-                <i id="btnCloseSideFilters" class="glyphicon glyphicon-arrow-left"></i>
-            </div>
-        </div>
+            </div> <!-- End of .right-container -->
+
+        </div> <!-- End of .container -->
+
         <div class="overlay"><div>
-    </div> <!-- end of .wrapper -->
+
+    </div> <!-- End of .wrapper -->
 
     <script src="../../js/menu-selector.js"></script>
+
     <script>
         var headerNames;
         var linesArrayOfObjects = [];
@@ -59,37 +74,6 @@
         var checkedFilters = [];
         var checkedFiltersByCategory = [];
         var isInTheseLines = [];
-
-
-
-                function searchTable2(checkedFiltersArray) {
-                    // Declare variables
-                    var filter, table, tr, td, i;
-                    var searchInThis = "";
-                    filter = checkedFiltersArray[0].toUpperCase();
-                    table = document.getElementById("myTable");
-                    tr = table.getElementsByTagName("tr");
-                    th = table.getElementsByTagName("th");
-
-                    // Loop through all table rows, and hide those who don't match the search query
-                    for (i = 0; i < tr.length; i++) {
-                        // Loop through actual row's columns
-                        for (var j = 0; j < th.length; j++)
-                         {
-                            td = tr[i].getElementsByTagName("td")[j];
-                            if (td) {
-                                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                                    // if match, then display and set j index to last column so next row can be examined
-                                    tr[i].style.display = "";
-                                    j = th.length-1;
-                                } else if (j === th.length-1) {
-                                    // if not match and it is last column than hide it
-                                    tr[i].style.display = "none";
-                                }
-                            }
-                        }
-                    }
-                }
 
         function stripeTable() {
             $("tr:not(.hidden)").each(function (index) {
@@ -99,64 +83,16 @@
 
         function getByValue4(arr, value, isInTheseLines) {
             var o;
-            // console.log("value-nk: "+ value);
             for (var i=0, iLen=arr.length; i<iLen; i++) {
                 o = arr[i];
 
                 for (var p in o) {
-                        // if (o.hasOwnProperty(p) && o[p] == value) {
-                        console.log("o[p]: ",o[p], " | value: ",value);
-                        // console.log(value.toUpperCase().indexOf(o[p].toUpperCase()));
-                        console.log(o[p].includes(value));
-                        // if (value.toUpperCase().indexOf(o[p].toUpperCase()) !== -1) {
                         if (o[p].toUpperCase().includes(value.toUpperCase())) {
                             isInTheseLines.push(i+1);
-                            // return i;
                         }
                 }
             }
-            // console.log(isInTheseLines);
             return 0;
-        }
-
-        function searchTable(checkedFiltersArray) {
-            // Declare variables
-            var filter, table, tr, td, i;
-            var searchInThis = "";
-            filter = checkedFiltersArray[0].toUpperCase();
-            table = document.getElementById("myTable");
-            tr = table.getElementsByTagName("tr");
-            th = table.getElementsByTagName("th");
-
-            isInTheseLines = [];
-
-            for (var i = 0; i < checkedFiltersArray.length; i++) {
-                getByValue4(linesArrayOfObjects,checkedFiltersArray[i],isInTheseLines);
-            }
-
-            let uniqueFilters = [...new Set(isInTheseLines)];
-            let uniqueSortedFilters = uniqueFilters.sort(function(a, b){return a - b});
-
-            for (i = 0; i < tr.length; i++) {
-                // Loop through actual row's columns
-                for (var j = 0; j < th.length; j++)
-                 {
-                    td = tr[i].getElementsByTagName("td")[j];
-                    if (td) {
-                        if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                            // if match, then display and set j index to last column so next row can be examined
-                            // tr[i].style.display = "";
-                            tr[i].classList.remove("hidden");
-                            j = th.length-1;
-                        } else if (j === th.length-1) {
-                            // if not match and it is last column than hide it
-                            // tr[i].style.display = "none";
-                            tr[i].classList.add("hidden");
-                        }
-                    }
-                }
-            }
-            stripeTable();
         }
 
         function filterTableByIndex(linesArrayOfObjects,checkedGrouppedCategories) {
@@ -215,13 +151,6 @@
                 }
                 filterTableByIndex(linesArrayOfObjects,checkedGrouppedCategories);
             }
-
-            // TODO We have the array of objects for checkboxes.
-            // Have to join the hits to get which rows to show.
-            // build up the logical connection between categories (and searchfield too!)
-            // have to disable the checkboxes which are not relevant anymore
-            // console.log(objectForGroups);
-            // console.log(checkedFiltersByCategory);
         }
 
         function readTextFile(file) {
@@ -364,41 +293,13 @@
                 selectedObject.categoryName = $(this).parent().parent().parent().attr('id');
                 selectedObject.checkboxName = clickedCheckboxName;
                 checkedFiltersByCategory.push(selectedObject);
-// TODO HANDLING SEARCH FIELD
-
-
-                // if (document.getElementById("myInput").value !== selectedObject.checkboxName) {
-                //     checkedFiltersByCategory = checkedFiltersByCategory.filter(function(el) {
-                //         return el.categoryName !== "searchWord";
-                //     });
-                //     selectedObject = {};
-                //     selectedObject.categoryName = "searchWord";
-                //     selectedObject.checkboxName = document.getElementById("myInput").value;
-                //     checkedFiltersByCategory.push(selectedObject);
-                // }
-
-                console.log(checkedFiltersByCategory);
                 filterTableByCategory(checkedFiltersByCategory);
-                // searchTable(checkedFilters);
             } else {
                 checkedFilters = checkedFilters.filter(e => e !== clickedCheckboxName);
-
                 checkedFiltersByCategory = checkedFiltersByCategory.filter(function( obj ) {
                     return obj.checkboxName !== clickedCheckboxName;
                 });
-// TODO HANDLING SEARCH FIELD
-                                // if (document.getElementById("myInput").value !== selectedObject.checkboxName) {
-                                //     checkedFiltersByCategory = checkedFiltersByCategory.filter(function(el) {
-                                //         return el.categoryName !== "searchWord";
-                                //     });
-                                //     selectedObject = {};
-                                //     selectedObject.categoryName = "searchWord";
-                                //     selectedObject.checkboxName = document.getElementById("myInput").value;
-                                //     checkedFiltersByCategory.push(selectedObject);
-                                // }
-
                 filterTableByCategory(checkedFiltersByCategory);
-                // searchTable(checkedFilters);
             }
         });
 
@@ -416,32 +317,19 @@
                 checkedFiltersByCategory.push(selectedObject);
             }
             filterTableByCategory(checkedFiltersByCategory);
-            // update panel
-            // searchTable(input);
         });
 
         // Sidebar Filters button handler
         $('#btnCloseSideFilters, .overlay').on('click', function () {
-            /* $('#sidebar').removeClass('active'); */
              $('.overlay').fadeOut();
              $('#divSideFilters').hide();
              $('#divFilters').detach().appendTo('#panelFilter');
-             // $(".right-container").append();
         });
 
         $('#buttonsFilterAtSearch').on('click', function () {
-            // $('.left-container').css("display","block");
-            // above is equivalent to this:
-            // $('.left-container').show();
             $('#divSideFilters').show();
-            // var varFilter = $('#divFilters');
-            // $("#divSideFilters").append($('#divFilters'));
             $('#divFilters').detach().appendTo('#divSideFilters');
             $('.overlay').fadeIn();
-            /*$('#sidebar').addClass('active');
-            $('.overlay').fadeIn();
-            $('.collapse.in').toggleClass('in');
-            $('a[aria-expanded=true]').prop('aria-expanded', 'false');*/
         });
 
     </script>
