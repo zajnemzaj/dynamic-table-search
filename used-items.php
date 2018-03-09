@@ -51,13 +51,6 @@
         <div class="overlay"><div>
     </div> <!-- end of .wrapper -->
 
-
-
-
-
-
-
-
     <script src="../../js/menu-selector.js"></script>
     <script>
         var headerNames;
@@ -106,15 +99,20 @@
 
         function getByValue4(arr, value, isInTheseLines) {
             var o;
-
+            // console.log("value-nk: "+ value);
             for (var i=0, iLen=arr.length; i<iLen; i++) {
                 o = arr[i];
 
                 for (var p in o) {
-                    if (o.hasOwnProperty(p) && o[p] == value) {
-                        isInTheseLines.push(i+1);
-                        // return i;
-                    }
+                        // if (o.hasOwnProperty(p) && o[p] == value) {
+                        console.log("o[p]: ",o[p], " | value: ",value);
+                        // console.log(value.toUpperCase().indexOf(o[p].toUpperCase()));
+                        console.log(o[p].includes(value));
+                        // if (value.toUpperCase().indexOf(o[p].toUpperCase()) !== -1) {
+                        if (o[p].toUpperCase().includes(value.toUpperCase())) {
+                            isInTheseLines.push(i+1);
+                            // return i;
+                        }
                 }
             }
             // console.log(isInTheseLines);
@@ -181,6 +179,7 @@
             var isInTheseLines2 = [];
             var checkedGrouppedCategories = [];
             var arrayObjectKeysOfGroups = [];
+            // Going through categories
             for (var i = 0; i < checkedFiltersByCategory.length; i++) {
                 isInTheseLines2 = [];
                 getByValue4(linesArrayOfObjects,checkedFiltersByCategory[i].checkboxName,isInTheseLines2);
@@ -199,10 +198,12 @@
                         return objectForGroups[arrayObjectKeysOfGroups[i]].indexOf(val) != -1;
                     });
                 }
+                console.log(checkedFiltersByCategory);
                 console.log("Filtered rows:" + checkedGrouppedCategories);
                 filterTableByIndex(linesArrayOfObjects,checkedGrouppedCategories);
             } else if (arrayObjectKeysOfGroups.length === 1) {
                 checkedGrouppedCategories = objectForGroups[arrayObjectKeysOfGroups[0]];
+                console.log(checkedFiltersByCategory);
                 console.log("Only one group of filter selected: " + checkedGrouppedCategories);
                 filterTableByIndex(linesArrayOfObjects,checkedGrouppedCategories);
             } else {
@@ -403,11 +404,20 @@
 
         // better to call here (than directly in input field) because of clear button on the right
         $('#myInput').on("input", function() {
-            var input = [];
-            // Get input
-            input.push(document.getElementById("myInput").value);
+            var inputValue = document.getElementById("myInput").value;
+            var selectedObject = {};
+            // Deleting previous search word category
+            checkedFiltersByCategory = checkedFiltersByCategory.filter(function(el) {
+                return el.categoryName !== "searchWord";
+            });
+            if (inputValue !== "") {
+                selectedObject.categoryName = "searchWord";
+                selectedObject.checkboxName = inputValue;
+                checkedFiltersByCategory.push(selectedObject);
+            }
+            filterTableByCategory(checkedFiltersByCategory);
             // update panel
-            searchTable(input);
+            // searchTable(input);
         });
 
         // Sidebar Filters button handler
