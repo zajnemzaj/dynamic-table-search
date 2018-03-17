@@ -334,25 +334,6 @@ input {
     transform: rotate(45deg);
 }
 
-/* accordion rotation of arrow icon */
-/* #panelFilter .filters-heading a:before {
-  content: '\f106';
-  content: '\e316';
-  font-size: 15px;
-  position: relative;
-  font-family: 'FontAwesome';
-  font-family: 'Material Icons';
-  right: -80px;
-  top: 10px;
-  transform: rotate(180deg);
-  transition: all 0.5s;
-} */
-
-/* #panelFilter .filters-heading.active a:before {
-  transform: rotate(0deg);
-  transition: all 0.5s;
-} */
-
 /* Arrows on filter's heading on sidebar */
 
 .panel-title > a {
@@ -383,4 +364,41 @@ input {
     height: 16px;
     width: 16px;
     background-color: #bd3a3a;
+}
+
+/* Actual filters */
+
+.actual-filters {
+    display: block;
+    position: relative;
+    padding-left: 208px;
+}
+
+.btn-label {
+  position: relative;
+  right: -5px;
+  display: inline-block;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 1px !important;
+}
+
+.btn-label:hover {
+  color: #cb1f1f;
+}
+
+.btn-labeled {
+  border: none;
+  border-radius: 1px !important;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.btn {
+  color: #0e0e0e;
+  margin-bottom: 10px;
+}
+
+.btn:hover {
+  color: #0e0e0e;
 }

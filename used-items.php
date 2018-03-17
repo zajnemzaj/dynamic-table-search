@@ -182,12 +182,11 @@
 
                 // Creating checkboxes
                 for (var i = 0; i < uniqueArrayForCheckboxes.length; i++) {
+                    var clickedCheckboxNameId = uniqueArrayForCheckboxes[i].replace(/\s/g, '').replace(/\,/g,"");
                     htmlContent += `
                             <div class="checkbox">
                                 <label class="label-container">
-                                    <input type="checkbox" name="${uniqueArrayForCheckboxes[i]}">
-                                    ${uniqueArrayForCheckboxes[i]}
-                                    <span class="checkmark"></span>
+                                    <input type="checkbox" name="${uniqueArrayForCheckboxes[i]}" id="${clickedCheckboxNameId}">${uniqueArrayForCheckboxes[i]}<span class="checkmark"></span>
                                 </label>
                             </div>
                             `;
@@ -302,11 +301,7 @@
                 filterTableByCategory(checkedFiltersByCategory);
                 // Adding checked category to Active filters list
                 filtersHtmlContent = `
-                    <button type="button" id="${clickedCheckboxNameId}" class="btn-filter btn btn-labeled btn-info btn-xs">
-                        ${clickedCheckboxName}
-                        <span class="btn-label">
-                            <i class="glyphicon glyphicon-remove"></i>
-                            </span>
+                    <button type="button" id="${clickedCheckboxNameId}" class="btn-filter btn btn-labeled btn-info btn-xs name="${clickedCheckboxName}">${clickedCheckboxName}<span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>
                     </button>
                 `;
                 document.getElementById('actualFilters').innerHTML += filtersHtmlContent;
@@ -316,7 +311,8 @@
                 checkedFiltersByCategory = checkedFiltersByCategory.filter(function( obj ) {
                     return obj.checkboxName !== clickedCheckboxName;
                 });
-                $("#" + clickedCheckboxNameId).fadeOut().detach();
+                $("#" + clickedCheckboxNameId).fadeOut();
+                //.detach();
                 filterTableByCategory(checkedFiltersByCategory);
             }
         });
@@ -353,7 +349,11 @@
 
         // Actual filters close buttons handler
         $("#actualFilters").on("click", ".btn-label", function() {
-            $(this).parent().fadeOut().detach();
+            console.log($(this).parent().attr("id"));
+            // var tempName = $(this).parent().text();
+            $("input[id='"+$(this).parent().attr("id")+"']").click();
+            // $("input[name='Orbitmotor']").click();  .detach()
+            // $(this).parent().fadeOut();
         });
 
 
