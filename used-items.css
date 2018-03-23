@@ -402,3 +402,12 @@ input {
 .btn:hover {
   color: #0e0e0e;
 }
+
+.btn-filter {
+    margin: 3px;
+    margin-bottom: 14px;
+}
+
+#actualFilters {
+    display: none;
+}

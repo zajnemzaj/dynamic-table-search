@@ -133,7 +133,7 @@
             arrayObjectKeysOfGroups = Object.keys(objectForGroups);
             if (arrayObjectKeysOfGroups.length > 1) {
                 checkedGrouppedCategories = objectForGroups[arrayObjectKeysOfGroups[0]];
-                for (var i = 1; i < arrayObjectKeysOfGroups.length; i++) {
+                for (i = 1; i < arrayObjectKeysOfGroups.length; i++) {
                     checkedGrouppedCategories = checkedGrouppedCategories.filter(function(val) {
                         return objectForGroups[arrayObjectKeysOfGroups[i]].indexOf(val) != -1;
                     });
@@ -182,7 +182,8 @@
 
                 // Creating checkboxes
                 for (var i = 0; i < uniqueArrayForCheckboxes.length; i++) {
-                    var clickedCheckboxNameId = uniqueArrayForCheckboxes[i].replace(/\s/g, '').replace(/\,/g,"");
+                    var clickedCheckboxNameId = uniqueArrayForCheckboxes[i].replace(/\s/g,'').replace(/\,/g,'').replace(/\(/g,'').replace(/\)/g,'').replace(/\//g,'');
+                    console.log("|"+clickedCheckboxNameId+"|");
                     htmlContent += `
                             <div class="checkbox">
                                 <label class="label-container">
@@ -217,7 +218,8 @@
                         // Insert a cell in the row at index 0
                         var newCell  = newRow.insertCell(0);
                         // Append a text node to the cell. Dot notaion not possible as now it can use variable as object property
-                        var newText  = document.createTextNode(`${linesArrayOfObjects[j][headerNames[k]].replace(/\<br\>/g, "\n")}`);
+                        // var newText  = document.createTextNode(`${linesArrayOfObjects[j][headerNames[k]].replace(/\<br\>/g, "\n")}`);
+                        var newText  = document.createTextNode(`${linesArrayOfObjects[j][headerNames[k]].replace(/<br\s*[\/]?>/gi, "\n")}`);
                         newCell.appendChild(newText);
                         //document.getElementById('myTableBody').innerHTML += `<td style="width:30%;">${j} ${i}</td>`;
                     }
@@ -255,6 +257,7 @@
                             // initializing rowContent array to store each column as an array
                             var rowContent = lines[count].split("|");
                             // if it's not a empty row
+                            // works only with != not with !== WHY?
                             if (rowContent != "") {
                                 // going through columns
                                 for (var i = 0; i < rowContent.length; i++) {
@@ -287,10 +290,13 @@
 
         $(document).on('click', 'input[type="checkbox"]', function(){
             var clickedCheckboxName = $(this).attr("name");
-            var clickedCheckboxNameId = clickedCheckboxName.replace(/\s/g, '').replace(/\,/g,"");
+            var clickedCheckboxNameId = clickedCheckboxName.replace(/\s/g,'').replace(/\,/g,'').replace(/\(/g,'').replace(/\)/g,'').replace(/\//g,'');
             var filtersHtmlContent = "";
             // If clicked on one of the checkboxes
             if ($(this).is(':checked')) {
+                if (checkedFilters.length === 0) {
+                    $('#actualFilters').fadeIn();
+                }
                 checkedFilters.push(clickedCheckboxName);
                 // Get parent to see in which category is in it and store it in an object with property names as category
                 var selectedObject = {};
@@ -299,19 +305,34 @@
                 selectedObject.checkboxName = clickedCheckboxName;
                 checkedFiltersByCategory.push(selectedObject);
                 filterTableByCategory(checkedFiltersByCategory);
-                // Adding checked category to Active filters list
-                filtersHtmlContent = `
-                    <button type="button" id="${clickedCheckboxNameId}" class="btn-filter btn btn-labeled btn-info btn-xs name="${clickedCheckboxName}">${clickedCheckboxName}<span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>
-                    </button>
-                `;
-                document.getElementById('actualFilters').innerHTML += filtersHtmlContent;
+                // if any button exists already in Active filters list
+                if ($('#'+clickedCheckboxNameId+'B, input[type="button"]').length > 0) {
+                    // alert("van ilyen, újraadjuk");
+                    // var seged = $('#'+clickedCheckboxNameId+'B');
+                    // $('#actualFilters').append(seged);
+                    // $('#'+clickedCheckboxNameId+'B, input[type="button"]').fadeIn();
+                    $('#'+clickedCheckboxNameId+'B, input[type="button"]').appendTo('#actualFilters').fadeIn();
+                } else {
+                    // alert("nincs ilyen, létrehozzuk");
+                    // Adding checked category to Active filters list
+                    filtersHtmlContent = `<button type="button" id="${clickedCheckboxNameId}B" class="btn-filter btn btn-labeled btn-info btn-xs name="${clickedCheckboxName}">${clickedCheckboxName}<span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span></button>`;
+                    // document.getElementById('actualFilters').innerHTML += filtersHtmlContent;
+                    $('#actualFilters').append(filtersHtmlContent).fadeIn();
+                }
+
             // if clicked on an already checked checkbox
             } else {
                 checkedFilters = checkedFilters.filter(e => e !== clickedCheckboxName);
                 checkedFiltersByCategory = checkedFiltersByCategory.filter(function( obj ) {
                     return obj.checkboxName !== clickedCheckboxName;
                 });
-                $("#" + clickedCheckboxNameId).fadeOut();
+                // $('#'+clickedCheckboxNameId+ ', .btn-filter').fadeOut();
+                $('#'+clickedCheckboxNameId+'B, input[type="button"]').fadeOut();
+                if (checkedFilters.length === 0) {
+                    $('#actualFilters').fadeOut();
+                }
+
+                // console.log("Clicked clickedCheckboxNameId: "+clickedCheckboxNameId);
                 //.detach();
                 filterTableByCategory(checkedFiltersByCategory);
             }
@@ -349,9 +370,10 @@
 
         // Actual filters close buttons handler
         $("#actualFilters").on("click", ".btn-label", function() {
-            console.log($(this).parent().attr("id"));
+            // console.log("|"+$(this).parent().attr("id")+"|");
             // var tempName = $(this).parent().text();
-            $("input[id='"+$(this).parent().attr("id")+"']").click();
+            // Removing last B from the id
+            $("input[id='"+$(this).parent().attr("id").slice(0,-1)+"']").click();
             // $("input[name='Orbitmotor']").click();  .detach()
             // $(this).parent().fadeOut();
         });
