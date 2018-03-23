@@ -370,8 +370,9 @@ input {
 
 .actual-filters {
     display: block;
-    position: relative;
-    padding-left: 208px;
+    /* position: relative;
+    padding-left: 208px; */
+    margin-left: 5px;
 }
 
 .btn-label {

@@ -38,12 +38,13 @@
                 <!-- </div> -->
             </div> <!-- End of .left-container -->
 
-            <div id="actualFilters" class="actual-filters">
-                <p>Aktív szűrők: </p>
-            </div> <!-- End of .actual-filters -->
+
 
             <!-- Right-container for filtered table -->
             <div class="right-container col-sm-10">
+                <div id="actualFilters" class="actual-filters">
+                    <p>Aktív szűrők: </p>
+                </div> <!-- End of .actual-filters -->
                 <!-- Div for search input field and filters button -->
                 <div class="input-group">
                     <!-- Button for filters. Only visible on mobile view -->
