@@ -117,6 +117,7 @@ Large desktops and laptops */
 }
 
 .left-container {
+    max-width: 212px;
     padding-right: 0px;
 }
 
@@ -199,12 +200,12 @@ input {
 .panel {
     margin-top: 0px;
     margin-bottom: 0px;
-    border-radius: 0px;
+    border-radius: 1px;
 }
 
 .panel-heading {
     background-color: #e9e9e9 !important;
-    border-radius: 0px;
+    border-radius: 1px;
     text-align: center;
 }
 
@@ -291,7 +292,7 @@ input {
     left: 0;
     height: 16px;
     width: 16px;
-    background-color: #eee;
+    background-color: #e8e0e0;
 }
 
 /* On mouse-over, add a grey background color */
@@ -380,7 +381,7 @@ input {
   right: -5px;
   display: inline-block;
   padding: 4px 8px;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.10);
   border-radius: 1px !important;
 }
 
@@ -411,4 +412,10 @@ input {
 
 #actualFilters {
     display: none;
+}
+
+.badge {
+    border-radius: 1px;
+    float: right;
+    background-color: #a3cce6;
 }
