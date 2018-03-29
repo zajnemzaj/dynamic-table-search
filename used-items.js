@@ -4,6 +4,7 @@ var htmlContent = "";
 var checkedFilters = [];
 var checkedFiltersByCategory = [];
 var isInTheseLines = [];
+var filterCounts = [];
 
 /**
  * Striping the actual displayed table
@@ -124,12 +125,25 @@ function readTextFile(file) {
 
         // Creating checkboxes
         for (var i = 0; i < uniqueArrayForCheckboxes.length; i++) {
+            var tempObjectForFilters = {};
             var clickedCheckboxNameId = uniqueArrayForCheckboxes[i].replace(/\s/g,'').replace(/\,/g,'').replace(/\(/g,'').replace(/\)/g,'').replace(/\//g,'');
-            console.log("|"+clickedCheckboxNameId+"|");
+            tempObjectForFilters.amount = 0;
+            // console.log("|"+clickedCheckboxNameId+"|");
+            // Filling up filterCounts array variable with default values
+            for (var j = 0; j < linesArrayOfObjects.length; j++) {
+                // console.log(linesArrayOfObjects[j][inCategory]);
+                if (linesArrayOfObjects[j][inCategory].includes(uniqueArrayForCheckboxes[i])) {
+                    tempObjectForFilters.categoryName = inCategory;
+                    tempObjectForFilters.checkboxName = uniqueArrayForCheckboxes[i];
+                    tempObjectForFilters.amount++;
+                }
+            }
+            filterCounts.push(tempObjectForFilters);
+            console.log(filterCounts);
             htmlContent += `
                     <div class="checkbox">
                         <label class="label-container">
-                            <input type="checkbox" name="${uniqueArrayForCheckboxes[i]}" id="${clickedCheckboxNameId}">${uniqueArrayForCheckboxes[i]}<span class="checkmark"></span><span class="badge">${i}</span>
+                            <input type="checkbox" name="${uniqueArrayForCheckboxes[i]}" id="${clickedCheckboxNameId}">${uniqueArrayForCheckboxes[i]}<span class="checkmark"></span><span class="badge">${tempObjectForFilters.amount}</span>
                         </label>
                     </div>
                     `;
