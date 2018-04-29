@@ -128,7 +128,6 @@ function readTextFile(file) {
             var tempObjectForFilters = {};
             var clickedCheckboxNameId = uniqueArrayForCheckboxes[i].replace(/\s/g,'').replace(/\,/g,'').replace(/\(/g,'').replace(/\)/g,'').replace(/\//g,'');
             tempObjectForFilters.amount = 0;
-            // console.log("|"+clickedCheckboxNameId+"|");
             // Filling up filterCounts array variable with default values
             for (var j = 0; j < linesArrayOfObjects.length; j++) {
                 // console.log(linesArrayOfObjects[j][inCategory]);
@@ -139,11 +138,10 @@ function readTextFile(file) {
                 }
             }
             filterCounts.push(tempObjectForFilters);
-            console.log(filterCounts);
             htmlContent += `
                     <div class="checkbox">
                         <label class="label-container">
-                            <input type="checkbox" name="${uniqueArrayForCheckboxes[i]}" id="${clickedCheckboxNameId}">${uniqueArrayForCheckboxes[i]}<span class="checkmark"></span><span class="badge">${tempObjectForFilters.amount}</span>
+                            <input type="checkbox" name="${uniqueArrayForCheckboxes[i]}" id="${clickedCheckboxNameId}">${uniqueArrayForCheckboxes[i]}<span class="checkmark"></span><span class="badge" id="${clickedCheckboxNameId}badge">${tempObjectForFilters.amount}</span>
                         </label>
                     </div>
                     `;
@@ -244,45 +242,89 @@ function readTextFile(file) {
 
 readTextFile("used-items.csv");
 
+// Refreshing the filterCounts badges
+function refreshFilters(fvClickedCheckboxName,fvClickedCategoryName,refreshSelfCategory) {
+    var inHowManyrows = 0;
+    for (var i = 0; i < filterCounts.length; i++) {
+        if (filterCounts[i].categoryName !== fvClickedCategoryName || refreshSelfCategory === "refreshCat") {
+            $('#myTable tr:visible').each(function () {
+                if ($(this).is(':contains("'+filterCounts[i].checkboxName+'")')) {
+                    inHowManyrows++;
+                }
+            });
+            filterCounts[i].amount = inHowManyrows;
+            // We have for each checkbox that how many times it is occours in visible table
+            // TODO
+            var clickedCheckboxNameId = filterCounts[i].checkboxName.replace(/\s/g,'').replace(/\,/g,'').replace(/\(/g,'').replace(/\)/g,'').replace(/\//g,'');
+            $('#'+clickedCheckboxNameId+'badge').text(inHowManyrows);
+            if (inHowManyrows === 0) {
+                $('#'+clickedCheckboxNameId+'badge').parent().toggleClass("fade-checkbox");
+            } else {
+                $('#'+clickedCheckboxNameId+'badge').parent().removeClass("fade-checkbox");
+            }
+            // console.log($('#'+clickedCheckboxNameId+'badge').text);
+            inHowManyrows = 0;
+        }
+    }
+
+    // table = document.getElementById("myTable");
+    // tr = table.getElementsByTagName("tr");
+    // for (i = 1; i < tr.length; i++) {
+    //     if (checkedGrouppedCategories.includes(i)) {
+    //         tr[i].classList.remove("hidden");
+    //     }
+    // }
+
+    var trs = $('#myTable tr:visible');
+    var totalRowCount =  $('#myTable tr:visible').length-1;
+
+    // console.log("Number of visible rows: "+totalRowCount);
+    // for (i = 0; i < totalRowCount; i++) {
+    //
+    // }
+
+
+
+}
+
 $(document).on('click', 'input[type="checkbox"]', function(){
     var clickedCheckboxName = $(this).attr("name");
     var clickedCheckboxNameId = clickedCheckboxName.replace(/\s/g,'').replace(/\,/g,'').replace(/\(/g,'').replace(/\)/g,'').replace(/\//g,'');
     var filtersHtmlContent = "";
+    // Get parent to see in which category is in it and store it in an object with property names as category
+    var selectedObject = {};
+    // Getting the id of collapse to identify in which category is click the checkbox
+    selectedObject.categoryName = $(this).parent().parent().parent().attr('id');
+    selectedObject.checkboxName = clickedCheckboxName;
     // If clicked on one of the checkboxes
     if ($(this).is(':checked')) {
         if (checkedFilters.length === 0) {
             $('#actualFilters').fadeIn();
         }
         checkedFilters.push(clickedCheckboxName);
-        // Get parent to see in which category is in it and store it in an object with property names as category
-        var selectedObject = {};
-        // Getting the id of collapse to identify in which category is click the checkbox
-        selectedObject.categoryName = $(this).parent().parent().parent().attr('id');
-        selectedObject.checkboxName = clickedCheckboxName;
         checkedFiltersByCategory.push(selectedObject);
         filterTableByCategory(checkedFiltersByCategory);
         // if any button exists already in Active filters list
         if ($('#'+clickedCheckboxNameId+'B, input[type="button"]').length > 0) {
-            // alert("van ilyen, újraadjuk");
-            // var seged = $('#'+clickedCheckboxNameId+'B');
-            // $('#actualFilters').append(seged);
-            // $('#'+clickedCheckboxNameId+'B, input[type="button"]').fadeIn();
+            // We already having a filter label so we are readding it
             $('#'+clickedCheckboxNameId+'B, input[type="button"]').appendTo('#actualFilters').fadeIn();
         } else {
-            // alert("nincs ilyen, létrehozzuk");
+            // Creating new filter label
             // Adding checked category to Active filters list
             filtersHtmlContent = `<button type="button" id="${clickedCheckboxNameId}B" class="btn-filter btn btn-labeled btn-info btn-xs name="${clickedCheckboxName}">${clickedCheckboxName}<span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span></button>`;
-            // document.getElementById('actualFilters').innerHTML += filtersHtmlContent;
             $('#actualFilters').append(filtersHtmlContent).fadeIn();
         }
+        // Refreshing the filterCounts badges
+        refreshFilters(clickedCheckboxName,selectedObject.categoryName,"noRefreshCat");
 
     // if clicked on an already checked checkbox
     } else {
+        // ES6 style
         checkedFilters = checkedFilters.filter(e => e !== clickedCheckboxName);
+        // ES5 style
         checkedFiltersByCategory = checkedFiltersByCategory.filter(function( obj ) {
             return obj.checkboxName !== clickedCheckboxName;
         });
-        // $('#'+clickedCheckboxNameId+ ', .btn-filter').fadeOut();
         $('#'+clickedCheckboxNameId+'B, input[type="button"]').fadeOut();
         if (checkedFilters.length === 0) {
             $('#actualFilters').fadeOut();
@@ -291,6 +333,9 @@ $(document).on('click', 'input[type="checkbox"]', function(){
         // console.log("Clicked clickedCheckboxNameId: "+clickedCheckboxNameId);
         //.detach();
         filterTableByCategory(checkedFiltersByCategory);
+        // Refreshing the filterCounts badges
+        // ERROR, because we should deicide when to refresh the self category
+        refreshFilters(clickedCheckboxName,selectedObject.categoryName,"refreshCat");
     }
 });
 

@@ -343,9 +343,10 @@ input {
   color: #4285c1 !important;
   font-size: 14px;
 }
+
 .panel-title > a:after {
   content: "\f107"; /* fa-chevron-down */
-  transform: rotate(90deg);
+/*   transform: rotate(0deg); */
   transition: all 0.5s;
   font-family: 'FontAwesome';
   font-size: 20px;
@@ -353,11 +354,13 @@ input {
   right: 0;
   top: -5px;
 }
+
 .panel-title > a[aria-expanded="true"]:after {
-  content: "\f107"; /* fa-chevron-up */
-  transform: rotate(0deg);
+  content: "\f106"; /* fa-chevron-up */
+/*   transform: rotate(180deg); */
   transition: all 0.5s;
 }
+
 .panel-title > a[aria-expanded="true"]:before {
     position: absolute;
     top: 0;
@@ -418,4 +421,12 @@ input {
     border-radius: 1px;
     float: right;
     background-color: #a3cce6;
+}
+
+.fade-checkbox {
+    color: #a3a3a3;
+}
+
+.fade-checkbox > .badge {
+    background-color: #d8d8d8;
 }
